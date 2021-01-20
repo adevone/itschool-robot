@@ -29,7 +29,7 @@ abstract class BaseFragment : SummerFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = (createBinding ?: throw ViewBindingNotProvided())(inflater)
+        _binding = (createBinding ?: throw ViewBindingNotProvidedException())(inflater)
         return _binding!!.root
     }
 
@@ -53,4 +53,4 @@ abstract class BaseFragment : SummerFragment() {
     }
 }
 
-class ViewBindingNotProvided : IllegalStateException()
+class ViewBindingNotProvidedException : IllegalStateException()
