@@ -7,5 +7,5 @@ val arenaDraw = levelDemo
 fun run() {
     right()
     right()
-//    down()
+    down()
 }
