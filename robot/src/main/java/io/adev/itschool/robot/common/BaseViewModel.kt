@@ -1,5 +1,6 @@
 package io.adev.itschool.robot.common
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +18,7 @@ abstract class BaseViewModel<TView> : SummerViewModel<TView>(), BaseViewModelCon
             }
 
     open fun onFailure(e: Throwable) {
-        throw e
+        Log.e(this::class.simpleName, Log.getStackTraceString(e))
     }
 
     override fun onDestroy() {
