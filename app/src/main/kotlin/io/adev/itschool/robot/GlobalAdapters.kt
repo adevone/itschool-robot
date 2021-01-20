@@ -1,5 +1,3 @@
-@file:Suppress("PackageDirectoryMismatch")
-
 package io.adev.itschool.robot
 
 import io.adev.itschool.robot.common.arena.Robot
