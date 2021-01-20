@@ -1,8 +1,14 @@
-package io.adev.itschool.robot.common.arena.entity
+package io.adev.itschool.robot.common.arena.entity.arena
+
+import io.adev.itschool.robot.common.arena.entity.Position
+import io.adev.itschool.robot.common.arena.entity.RobotState
+import io.adev.itschool.robot.common.arena.entity.Size
+import io.adev.itschool.robot.common.arena.entity.arena.blocks.*
+import io.adev.itschool.robot.common.arena.entity.vp
 
 data class Arena(
     val initialRobotState: RobotState,
-    private val nonVoidBlocks: List<Block>
+    private val nonVoidBlocks: List<Block>,
 ) : RobotStateMutationsProvider, RobotState.Source {
 
     val size = Size.Virtual(
@@ -94,6 +100,7 @@ fun String.parseArena(): Arena {
                 'r' -> initialRobotPosition = position
                 'p' -> blocks.add(PlatformBlock(position))
                 't' -> blocks.add(TargetBlock(position))
+                '*' -> blocks.add(PasswordBlock(position))
                 ' ' -> Unit // skip
                 else -> throw IllegalArgumentException("char can not be '$char' position=$position")
             }

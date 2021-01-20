@@ -4,8 +4,8 @@ import io.adev.itschool.robot.common.arena.Robot
 import io.adev.itschool.robot.common.arena.RobotExecutor
 import io.adev.itschool.robot.common.arena.RobotStatesApplier
 import io.adev.itschool.robot.common.arena.UserAction
-import io.adev.itschool.robot.common.arena.entity.Arena
 import io.adev.itschool.robot.common.arena.entity.RobotState
+import io.adev.itschool.robot.common.arena.entity.arena.Arena
 
 fun runMockRobot(arena: Arena, run: UserAction) {
     var exception: Exception? = null

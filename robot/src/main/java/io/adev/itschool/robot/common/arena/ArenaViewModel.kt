@@ -1,8 +1,8 @@
 package io.adev.itschool.robot.common.arena
 
 import io.adev.itschool.robot.common.BaseViewModel
-import io.adev.itschool.robot.common.arena.entity.Arena
 import io.adev.itschool.robot.common.arena.entity.RobotState
+import io.adev.itschool.robot.common.arena.entity.arena.Arena
 import kotlinx.coroutines.launch
 
 interface ArenaView {

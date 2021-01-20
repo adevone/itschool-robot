@@ -1,14 +1,14 @@
 package io.adev.itschool.robot.common.arena
 
-import io.adev.itschool.robot.common.arena.entity.Arena
 import io.adev.itschool.robot.common.arena.entity.Position
 import io.adev.itschool.robot.common.arena.entity.RobotState
-import io.adev.itschool.robot.common.arena.entity.RobotStateMutationsProvider
+import io.adev.itschool.robot.common.arena.entity.arena.Arena
+import io.adev.itschool.robot.common.arena.entity.arena.RobotStateMutationsProvider
 
 class Robot(
     private val initialState: RobotState,
     private val stateMutationsProvider: RobotStateMutationsProvider,
-    private val applyStates: (List<RobotState>) -> Unit
+    private val applyStates: (List<RobotState>) -> Unit,
 ) : RobotState.Source {
 
     fun requireWon() {
@@ -18,6 +18,10 @@ class Robot(
     }
 
     private lateinit var currentState: RobotState
+
+    fun display(text: String) {
+        updateState(state = currentState.display(text))
+    }
 
     fun right(stepsCount: Int = 1) {
         repeat(stepsCount) {
@@ -110,7 +114,7 @@ interface RobotStatesApplier {
 
     fun applyStates(
         states: List<RobotState>,
-        callback: Callback, useCallback: (() -> Unit) -> Unit
+        callback: Callback, useCallback: (() -> Unit) -> Unit,
     )
 
     fun robotMoved()
@@ -123,14 +127,14 @@ interface RobotStatesApplier {
 
 class RobotDestroyedException(
     state: RobotState,
-    stateHistory: List<RobotState>
+    stateHistory: List<RobotState>,
 ) : IllegalStateException(
     "robot is destroyed, state=$state, history:\n${formatHistory(stateHistory)}"
 )
 
 class NotCompleteException(
     state: RobotState,
-    stateHistory: List<RobotState>
+    stateHistory: List<RobotState>,
 ) : IllegalStateException(
     "level is not completed, state=$state, history:\n${formatHistory(stateHistory)}"
 )

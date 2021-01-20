@@ -1,10 +1,14 @@
 package io.adev.itschool.robot.platform.arena
 
 import android.animation.Animator
+import android.graphics.Color
+import android.graphics.Typeface
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -14,8 +18,17 @@ import io.adev.itschool.robot.R
 import io.adev.itschool.robot.common.arena.ArenaView
 import io.adev.itschool.robot.common.arena.ArenaViewModel
 import io.adev.itschool.robot.common.arena.UserAction
-import io.adev.itschool.robot.common.arena.entity.*
+import io.adev.itschool.robot.common.arena.entity.RobotState
+import io.adev.itschool.robot.common.arena.entity.Size
+import io.adev.itschool.robot.common.arena.entity.arena.Arena
+import io.adev.itschool.robot.common.arena.entity.arena.blocks.Block
+import io.adev.itschool.robot.common.arena.entity.arena.blocks.PasswordBlock
+import io.adev.itschool.robot.common.arena.entity.arena.blocks.PlatformBlock
+import io.adev.itschool.robot.common.arena.entity.arena.blocks.TargetBlock
+import io.adev.itschool.robot.common.arena.entity.arena.parseArena
+import io.adev.itschool.robot.common.arena.entity.rp
 import io.adev.itschool.robot.databinding.ArenaFragmentBinding
+import io.adev.itschool.robot.databinding.RobotViewBinding
 import io.adev.itschool.robot.platform.BaseFragment
 
 class ArenaFragment : BaseFragment(), ArenaView {
@@ -62,11 +75,13 @@ class ArenaFragment : BaseFragment(), ArenaView {
 
     private var currentDrawnRobotState: RobotState? = null
     private fun updateRobot() {
-        val robot = robotState ?: return
+        val robotState = robotState ?: return
         val pointSize = pointSize ?: return
-        val robotView = robotView(robot, pointSize)
-        moveRobot(robotView, robot, pointSize)
-        currentDrawnRobotState = robot
+        val robotBinding = robotBinding(robotState, pointSize)
+        setRobotText(robotBinding, robotState.text)
+        moveRobot(robotBinding, robotState, pointSize)
+        robotBinding.root.alpha = if (!robotState.isDestroyed) 1f else 0.3f
+        currentDrawnRobotState = robotState
     }
 
     private fun drawArena(arena: Arena, pointSize: Float) {
@@ -102,44 +117,62 @@ class ArenaFragment : BaseFragment(), ArenaView {
             block.size.height.render(pointSize)
         )
         blockView.scaleType = ImageView.ScaleType.FIT_XY
-        when (block.texture) {
-            Block.Texture.Platform -> {
+        container.addView(blockView)
+        when (block) {
+            is PlatformBlock -> {
                 container.foreground = ContextCompat.getDrawable(requireContext(), R.drawable.block_corner)
                 blockView.setImageResource(R.drawable.stone_texture)
             }
-            Block.Texture.Target -> {
+            is TargetBlock -> {
                 blockView.setImageResource(R.drawable.target)
             }
-            null -> {
+            is PasswordBlock -> {
+                val passwordView = TextView(requireContext())
+                passwordView.textSize = 32f
+                passwordView.setTextColor(Color.parseColor("#D50000"))
+                passwordView.typeface = Typeface.DEFAULT_BOLD
+                passwordView.layoutParams = FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    gravity = Gravity.CENTER
+                }
+                passwordView.text = block.password
+                container.addView(passwordView)
+                blockView.setImageResource(R.drawable.password_texture)
+            }
+            else -> {
                 blockView.setImageDrawable(null)
             }
         }
-        container.addView(blockView)
         return container
     }
 
     private var isRobotInit = false
-    private var robotView: View? = null
-    private fun robotView(robotState: RobotState, pointSize: Float): View {
-        return robotView ?: ImageView(requireContext()).also {
-            it.layoutParams = FrameLayout.LayoutParams(
-                robotState.size.width.render(pointSize),
-                robotState.size.height.render(pointSize)
-            )
-            it.scaleType = ImageView.ScaleType.FIT_XY
-            it.setImageResource(R.drawable.robot)
-            binding.robotContainer.removeAllViews()
-            binding.robotContainer.addView(it)
-            robotView = it
-            isRobotInit = false
-        }
+    private var robotBinding: RobotViewBinding? = null
+    private fun robotBinding(robotState: RobotState, pointSize: Float): RobotViewBinding {
+        if (robotBinding != null) return robotBinding!!
+        val robotBinding = RobotViewBinding.inflate(layoutInflater)
+        robotBinding.root.layoutParams = FrameLayout.LayoutParams(
+            robotState.size.width.render(pointSize),
+            robotState.size.height.render(pointSize)
+        )
+        binding.robotContainer.removeAllViews()
+        binding.robotContainer.addView(robotBinding.root)
+        this.robotBinding = robotBinding
+        isRobotInit = false
+        return robotBinding
     }
 
-    private fun moveRobot(robotView: View, robotState: RobotState, pointSize: Float) {
+    private fun setRobotText(robotBinding: RobotViewBinding, text: String) {
+        robotBinding.textView.text = text
+    }
+
+    private fun moveRobot(robotBinding: RobotViewBinding, robotState: RobotState, pointSize: Float) {
         val newX = robotState.position.x.render(pointSize)
         val newY = robotState.position.y.render(pointSize)
         if (isRobotInit) {
-            robotView.animate()
+            robotBinding.root.animate()
                 .setDuration(500L)
                 .translationX(newX.toFloat())
                 .translationY(newY.toFloat())
@@ -155,8 +188,8 @@ class ArenaFragment : BaseFragment(), ArenaView {
                 })
                 .start()
         } else {
-            robotView.translationX = newX.toFloat()
-            robotView.translationY = newY.toFloat()
+            robotBinding.root.translationX = newX.toFloat()
+            robotBinding.root.translationY = newY.toFloat()
             isRobotInit = true
             viewModel.onRobotMoved()
         }
@@ -164,7 +197,7 @@ class ArenaFragment : BaseFragment(), ArenaView {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        robotView = null
+        robotBinding = null
     }
 
     companion object {

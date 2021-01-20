@@ -1,10 +1,13 @@
 package io.adev.itschool.robot.common.arena.entity
 
+import io.adev.itschool.robot.common.arena.entity.arena.blocks.TargetBlock
+
 data class RobotState(
     val position: Position,
+    val text: String = "",
     val isDestroyed: Boolean = false,
     val isWon: Boolean = false,
-    val source: Source? = null
+    val source: Source? = null,
 ) {
     fun destroyed(source: Source): RobotState {
         return copy(isDestroyed = true, source = source)
@@ -38,6 +41,10 @@ data class RobotState(
         result = 31 * result + isWon.hashCode()
         result = 31 * result + size.hashCode()
         return result
+    }
+
+    fun display(text: String): RobotState {
+        return copy(text = text)
     }
 
     interface Source {
