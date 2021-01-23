@@ -3,7 +3,7 @@ package io.adev.itschool.robot.common.arena
 import io.adev.itschool.robot.common.BaseViewModel
 import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.arena.Arena
-import io.adev.itschool.robot.platform.arena.ArenaSetter
+import io.adev.itschool.robot.platform.arena.ArenaHolder
 import kotlinx.coroutines.launch
 
 interface ArenaView {
@@ -24,7 +24,7 @@ class ArenaViewModel(
         override val displayWon = event { it.displayWon }.perform.exactlyOnce()
     }
 
-    private val arenaSetter = ArenaSetter(
+    private val arenaSetter = ArenaHolder(
         onSet = { arena ->
             launch {
                 viewProxy.arena = arena

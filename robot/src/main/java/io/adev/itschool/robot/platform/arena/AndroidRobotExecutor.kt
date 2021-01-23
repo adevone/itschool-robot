@@ -10,12 +10,12 @@ import io.adev.itschool.robot.common.arena.entity.RobotState
 class AndroidRobotExecutor : RobotExecutor {
 
     override fun execute(
-        robot: Robot, arenaSetter: ArenaSetter, userAction: UserAction,
+        robot: Robot, arenaHolder: ArenaHolder, userAction: UserAction,
         callback: RobotExecutor.Callback, useCallback: (() -> Unit) -> Unit,
     ) {
         Thread {
             try {
-                userAction(robot, arenaSetter)
+                userAction(robot, arenaHolder)
                 robot.requireWon()
                 useCallback {
                     callback.onWon()

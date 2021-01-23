@@ -3,7 +3,7 @@ package io.adev.itschool.robot.common.arena
 import io.adev.itschool.robot.common.arena.entity.Position
 import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.arena.RobotStateMutationsProvider
-import io.adev.itschool.robot.platform.arena.ArenaSetter
+import io.adev.itschool.robot.platform.arena.ArenaHolder
 
 class Robot(
     private val applyStates: (List<RobotState>) -> Unit,
@@ -94,7 +94,7 @@ class Robot(
 interface RobotExecutor {
 
     fun execute(
-        robot: Robot, arenaSetter: ArenaSetter, userAction: UserAction,
+        robot: Robot, arenaHolder: ArenaHolder, userAction: UserAction,
         callback: Callback, useCallback: (() -> Unit) -> Unit,
     )
 
@@ -104,7 +104,7 @@ interface RobotExecutor {
     }
 }
 
-typealias UserAction = (Robot, ArenaSetter) -> Unit
+typealias UserAction = (Robot, ArenaHolder) -> Unit
 
 interface RobotStatesApplier {
 
