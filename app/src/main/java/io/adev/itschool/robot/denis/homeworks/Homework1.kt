@@ -8,7 +8,7 @@ import io.adev.itschool.robot.up
 fun denisHomework1() {
     leftFoot()
     leftHand()
-    Head()
+    head()
     rightHand()
 }
 
@@ -28,7 +28,7 @@ fun leftHand() {
     right()
 }
 
-fun Head() {
+fun head() {
     up()
     up()
     right()
