@@ -11,7 +11,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.core.view.doOnLayout
 import androidx.core.view.updateLayoutParams
 import io.adev.itschool.robot.R
@@ -25,7 +24,6 @@ import io.adev.itschool.robot.common.arena.entity.arena.blocks.Block
 import io.adev.itschool.robot.common.arena.entity.arena.blocks.PasswordBlock
 import io.adev.itschool.robot.common.arena.entity.arena.blocks.PlatformBlock
 import io.adev.itschool.robot.common.arena.entity.arena.blocks.TargetBlock
-import io.adev.itschool.robot.common.arena.entity.arena.parseArena
 import io.adev.itschool.robot.common.arena.entity.rp
 import io.adev.itschool.robot.databinding.ArenaFragmentBinding
 import io.adev.itschool.robot.databinding.RobotViewBinding
@@ -35,10 +33,7 @@ class ArenaFragment : BaseFragment(), ArenaView {
     private val binding by viewBinding { ArenaFragmentBinding.inflate(it) }
 
     override val viewModel by bindViewModel {
-        val arenaDraw = requireArguments().getString(arenaDrawKey)!!
-        val arena = arenaDraw.parseArena()
         ArenaViewModel(
-            arena = arena,
             userAction = requireNotNull(userAction) { "userAction must not be null" },
             executor = AndroidRobotExecutor(),
             statesApplier = AndroidRobotStatesApplier()
@@ -75,13 +70,17 @@ class ArenaFragment : BaseFragment(), ArenaView {
 
     private var currentDrawnRobotState: RobotState? = null
     private fun updateRobot() {
-        val robotState = robotState ?: return
-        val pointSize = pointSize ?: return
-        val robotBinding = robotBinding(robotState, pointSize)
-        setRobotText(robotBinding, robotState.text)
-        moveRobot(robotBinding, robotState, pointSize)
-        robotBinding.root.alpha = if (!robotState.isDestroyed) 1f else 0.3f
-        currentDrawnRobotState = robotState
+        val robotState = robotState
+        val pointSize = pointSize
+        if (robotState != null && pointSize != null) {
+            val robotBinding = robotBinding(robotState, pointSize)
+            setRobotText(robotBinding, robotState.text)
+            moveRobot(robotBinding, robotState, pointSize)
+            robotBinding.root.alpha = if (!robotState.isDestroyed) 1f else 0.3f
+            currentDrawnRobotState = robotState
+        } else {
+            viewModel.onRobotMoved()
+        }
     }
 
     private fun drawArena(arena: Arena, pointSize: Float) {
@@ -202,17 +201,11 @@ class ArenaFragment : BaseFragment(), ArenaView {
 
     companion object {
 
-        fun newInstance(arenaDraw: String, userAction: UserAction): ArenaFragment {
+        fun newInstance(userAction: UserAction): ArenaFragment {
             this.userAction = userAction
-            return ArenaFragment().also {
-                it.arguments = bundleOf(
-                    arenaDrawKey to arenaDraw
-                )
-            }
+            return ArenaFragment()
         }
 
         private var userAction: UserAction? = null
-
-        private const val arenaDrawKey = "ARENA_DRAW"
     }
 }

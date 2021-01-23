@@ -1,8 +1,17 @@
 package io.adev.itschool.robot
 
 import io.adev.itschool.robot.common.arena.Robot
+import io.adev.itschool.robot.common.arena.entity.arena.Arena
+import io.adev.itschool.robot.common.arena.entity.arena.parseArena
+import kotlinx.coroutines.flow.MutableStateFlow
 
 lateinit var globalRobot: Robot
+lateinit var globalArenaFlow: MutableStateFlow<Arena?>
+
+fun setArenaDraw(arenaDraw: String) {
+    val arena = arenaDraw.parseArena()
+    globalArenaFlow.value = arena
+}
 
 /**
  * Передвинуться вправо на [stepsCount]

@@ -4,12 +4,13 @@ import io.adev.itschool.robot.common.arena.entity.Position
 import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.arena.Arena
 import io.adev.itschool.robot.common.arena.entity.arena.RobotStateMutationsProvider
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class Robot(
-    private val initialState: RobotState,
-    private val stateMutationsProvider: RobotStateMutationsProvider,
     private val applyStates: (List<RobotState>) -> Unit,
 ) : RobotState.Source {
+
+    lateinit var stateMutationsProvider: RobotStateMutationsProvider
 
     fun requireWon() {
         if (!currentState.isWon) {
@@ -51,11 +52,7 @@ class Robot(
         updateState(state = currentState.move(movement, source = this))
     }
 
-    fun applyInitialState() {
-        updateState(state = initialState)
-    }
-
-    private fun updateState(state: RobotState) {
+    fun updateState(state: RobotState) {
         val statesList = makeStatesList(state)
         applyStates(statesList)
     }
@@ -98,7 +95,7 @@ class Robot(
 interface RobotExecutor {
 
     fun execute(
-        robot: Robot, arena: Arena, userAction: UserAction,
+        robot: Robot, arenaFlow: MutableStateFlow<Arena?>, userAction: UserAction,
         callback: Callback, useCallback: (() -> Unit) -> Unit,
     )
 
@@ -108,7 +105,7 @@ interface RobotExecutor {
     }
 }
 
-typealias UserAction = (Robot, Arena) -> Unit
+typealias UserAction = (Robot, MutableStateFlow<Arena?>) -> Unit
 
 interface RobotStatesApplier {
 

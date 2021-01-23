@@ -7,17 +7,17 @@ import io.adev.itschool.robot.common.arena.RobotStatesApplier
 import io.adev.itschool.robot.common.arena.UserAction
 import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.arena.Arena
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class AndroidRobotExecutor : RobotExecutor {
 
     override fun execute(
-        robot: Robot, arena: Arena, userAction: UserAction,
+        robot: Robot, arenaFlow: MutableStateFlow<Arena?>, userAction: UserAction,
         callback: RobotExecutor.Callback, useCallback: (() -> Unit) -> Unit,
     ) {
         Thread {
             try {
-                robot.applyInitialState()
-                userAction(robot, arena)
+                userAction(robot, arenaFlow)
                 robot.requireWon()
                 useCallback {
                     callback.onWon()
