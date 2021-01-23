@@ -37,9 +37,9 @@ fun up(stepsCount: Int = 1) {
 }
 
 /**
- * Показать [text] на дисплее робота.
+ * Показать [password] на дисплее робота.
  * Нужно для прохождения блоков с паролем.
  */
-fun display(text: String) {
-    globalRobot.display(text)
+fun display(password: String) {
+    globalRobot.display(password)
 }

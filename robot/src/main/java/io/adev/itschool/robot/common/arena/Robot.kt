@@ -19,8 +19,8 @@ class Robot(
 
     private lateinit var currentState: RobotState
 
-    fun display(text: String) {
-        updateState(state = currentState.display(text))
+    fun display(password: String) {
+        updateState(state = currentState.display(password))
     }
 
     fun right(stepsCount: Int = 1) {
