@@ -10,7 +10,6 @@ fun denisHomework1() {
     leftMiddleSquare()
     centralHighSquare()
     rightMiddleSquare()
-
 }
 
 fun oppositeLetterL() {
