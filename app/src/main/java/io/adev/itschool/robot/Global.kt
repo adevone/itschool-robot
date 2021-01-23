@@ -1,11 +1,10 @@
 package io.adev.itschool.robot
 
-import io.adev.itschool.robot.levels.level3
+import io.adev.itschool.robot.denis.homeworks.denisHomework1
+import io.adev.itschool.robot.levels.levelHomework1Denis
 
-val arenaDraw = level3
+val arenaDraw = levelHomework1Denis
 
 fun run() {
-    right()
-    right()
-    down()
+    denisHomework1()
 }
