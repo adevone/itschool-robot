@@ -6,19 +6,19 @@ import io.adev.itschool.robot.right
 import io.adev.itschool.robot.up
 
 fun denisHomework1() {
-    oppositeLetterL()
-    leftMiddleSquare()
-    centralHighSquare()
-    rightMiddleSquare()
+    leftFoot()
+    leftHand()
+    Head()
+    rightHand()
 }
 
-fun oppositeLetterL() {
+fun leftFoot() {
     right()
     up()
     up()
 }
 
-fun leftMiddleSquare() {
+fun leftHand() {
     up()
     left()
     left()
@@ -28,7 +28,7 @@ fun leftMiddleSquare() {
     right()
 }
 
-fun centralHighSquare() {
+fun Head() {
     up()
     up()
     right()
@@ -36,7 +36,7 @@ fun centralHighSquare() {
     down()
 }
 
-fun rightMiddleSquare() {
+fun rightHand() {
     down()
     right()
     right()
