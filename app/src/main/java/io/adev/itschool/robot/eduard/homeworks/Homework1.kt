@@ -1,7 +1,6 @@
 package io.adev.itschool.robot.eduard.homeworks
 
 import io.adev.itschool.robot.down
-import io.adev.itschool.robot.levels.levelHomework1Denis
 import io.adev.itschool.robot.levels.levelHomework1Edward
 import io.adev.itschool.robot.right
 import io.adev.itschool.robot.setArenaDraw
