@@ -9,7 +9,7 @@ fun eduardHomework1() {
     bamper()
     kyzov()
     koleso2()
-    }
+}
 
 fun koleso1() {
     right()
@@ -17,11 +17,13 @@ fun koleso1() {
     up()
     right()
 }
+
 fun bamper() {
     up()
     right()
 }
-fun kyzov(){
+
+fun kyzov() {
     right()
     right()
     right()
@@ -30,6 +32,7 @@ fun kyzov(){
     right()
     right()
 }
+
 fun koleso2() {
     down()
     down()
