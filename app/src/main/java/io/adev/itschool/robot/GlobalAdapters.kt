@@ -1,8 +1,15 @@
 package io.adev.itschool.robot
 
 import io.adev.itschool.robot.common.arena.Robot
+import io.adev.itschool.robot.common.arena.entity.arena.parseArena
+import io.adev.itschool.robot.platform.arena.ArenaHolder
 
 lateinit var globalRobot: Robot
+lateinit var globalArenaHolder: ArenaHolder
+
+fun setArenaDraw(arenaDraw: String) {
+    globalArenaHolder.arena = parseArena(arenaDraw)
+}
 
 /**
  * Передвинуться вправо на [stepsCount]

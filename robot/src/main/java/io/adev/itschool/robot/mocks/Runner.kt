@@ -6,6 +6,7 @@ import io.adev.itschool.robot.common.arena.RobotStatesApplier
 import io.adev.itschool.robot.common.arena.UserAction
 import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.arena.Arena
+import io.adev.itschool.robot.platform.arena.ArenaHolder
 
 fun runMockRobot(arena: Arena, run: UserAction) {
     var exception: Exception? = null
@@ -13,8 +14,6 @@ fun runMockRobot(arena: Arena, run: UserAction) {
     val statesApplier = MockRobotStatesApplier()
     lateinit var robot: Robot
     robot = Robot(
-        initialState = arena.initialRobotState,
-        stateMutationsProvider = arena,
         applyStates = { states ->
             statesApplier.applyStates(
                 states = states,
@@ -31,10 +30,13 @@ fun runMockRobot(arena: Arena, run: UserAction) {
                 useCallback = {}
             )
         },
-    )
+    ).also {
+        it.stateMutationsProvider = arena
+        it.updateState(arena.initialRobotState)
+    }
     executor.execute(
         robot = robot,
-        arena = arena,
+        arenaHolder = ArenaHolder {},
         userAction = run,
         callback = object : RobotExecutor.Callback {
 
