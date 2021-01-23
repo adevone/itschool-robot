@@ -21,7 +21,7 @@ class ArenaViewModel(
     override val viewProxy = object : ArenaView {
         override var arena by state({ it::arena }, initial = null)
         override var robotState by state({ it::robotState }, initial = null)
-        override val displayWon = event { it.displayWon }.doExactlyOnce()
+        override val displayWon = event { it.displayWon }.perform.exactlyOnce()
     }
 
     private val arenaSetter = ArenaSetter(
@@ -67,8 +67,7 @@ class ArenaViewModel(
         }
     }
 
-    override fun onEnter() {
-        super.onEnter()
+    init {
         executor.execute(robot, arenaSetter, userAction, executorCallback, useCallback = { action ->
             launch {
                 action()
