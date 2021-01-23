@@ -6,7 +6,7 @@ import io.adev.itschool.robot.common.arena.RobotStatesApplier
 import io.adev.itschool.robot.common.arena.UserAction
 import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.arena.Arena
-import kotlinx.coroutines.flow.MutableStateFlow
+import io.adev.itschool.robot.platform.arena.ArenaSetter
 
 fun runMockRobot(arena: Arena, run: UserAction) {
     var exception: Exception? = null
@@ -36,7 +36,7 @@ fun runMockRobot(arena: Arena, run: UserAction) {
     }
     executor.execute(
         robot = robot,
-        arenaFlow = MutableStateFlow(arena),
+        arenaSetter = ArenaSetter {},
         userAction = run,
         callback = object : RobotExecutor.Callback {
 

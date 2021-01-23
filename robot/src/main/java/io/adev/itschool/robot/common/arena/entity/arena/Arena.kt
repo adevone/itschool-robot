@@ -90,10 +90,10 @@ data class Arena(
  * 't': target
  * ' ': void
  */
-fun String.parseArena(): Arena {
+fun parseArena(draw: String): Arena {
     var initialRobotPosition: Position? = null
     val blocks = mutableListOf<Block>()
-    this.lines().forEachIndexed { lineIndex, line ->
+    draw.lines().forEachIndexed { lineIndex, line ->
         line.forEachIndexed { charIndex, char ->
             val position = Position(x = charIndex.vp, y = lineIndex.vp)
             when (char) {

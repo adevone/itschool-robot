@@ -2,9 +2,8 @@ package io.adev.itschool.robot.common.arena
 
 import io.adev.itschool.robot.common.arena.entity.Position
 import io.adev.itschool.robot.common.arena.entity.RobotState
-import io.adev.itschool.robot.common.arena.entity.arena.Arena
 import io.adev.itschool.robot.common.arena.entity.arena.RobotStateMutationsProvider
-import kotlinx.coroutines.flow.MutableStateFlow
+import io.adev.itschool.robot.platform.arena.ArenaSetter
 
 class Robot(
     private val applyStates: (List<RobotState>) -> Unit,
@@ -95,7 +94,7 @@ class Robot(
 interface RobotExecutor {
 
     fun execute(
-        robot: Robot, arenaFlow: MutableStateFlow<Arena?>, userAction: UserAction,
+        robot: Robot, arenaSetter: ArenaSetter, userAction: UserAction,
         callback: Callback, useCallback: (() -> Unit) -> Unit,
     )
 
@@ -105,7 +104,7 @@ interface RobotExecutor {
     }
 }
 
-typealias UserAction = (Robot, MutableStateFlow<Arena?>) -> Unit
+typealias UserAction = (Robot, ArenaSetter) -> Unit
 
 interface RobotStatesApplier {
 

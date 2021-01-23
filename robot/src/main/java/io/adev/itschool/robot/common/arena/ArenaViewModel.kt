@@ -3,9 +3,7 @@ package io.adev.itschool.robot.common.arena
 import io.adev.itschool.robot.common.BaseViewModel
 import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.arena.Arena
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import io.adev.itschool.robot.platform.arena.ArenaSetter
 import kotlinx.coroutines.launch
 
 interface ArenaView {
@@ -26,17 +24,15 @@ class ArenaViewModel(
         override val displayWon = event { it.displayWon }.doExactlyOnce()
     }
 
-    private val arenaFlow = MutableStateFlow<Arena?>(null)
-
-    init {
-        arenaFlow.onEach { arena ->
-            viewProxy.arena = arena
-            if (arena != null) {
-                robot.stateMutationsProvider = arena
-                robot.updateState(arena.initialRobotState)
+    private val arenaSetter = ArenaSetter(
+        onSet = { arena ->
+            launch {
+                viewProxy.arena = arena
             }
-        }.launchIn(this)
-    }
+            robot.stateMutationsProvider = arena
+            robot.updateState(arena.initialRobotState)
+        }
+    )
 
     private val statesApplierCallback: RobotStatesApplier.Callback =
         object : RobotStatesApplier.Callback {
@@ -73,7 +69,7 @@ class ArenaViewModel(
 
     override fun onEnter() {
         super.onEnter()
-        executor.execute(robot, arenaFlow, userAction, executorCallback, useCallback = { action ->
+        executor.execute(robot, arenaSetter, userAction, executorCallback, useCallback = { action ->
             launch {
                 action()
             }

@@ -1,16 +1,15 @@
 package io.adev.itschool.robot
 
 import io.adev.itschool.robot.common.arena.Robot
-import io.adev.itschool.robot.common.arena.entity.arena.Arena
 import io.adev.itschool.robot.common.arena.entity.arena.parseArena
-import kotlinx.coroutines.flow.MutableStateFlow
+import io.adev.itschool.robot.platform.arena.ArenaSetter
 
 lateinit var globalRobot: Robot
-lateinit var globalArenaFlow: MutableStateFlow<Arena?>
+lateinit var globalArenaSetter: ArenaSetter
 
 fun setArenaDraw(arenaDraw: String) {
-    val arena = arenaDraw.parseArena()
-    globalArenaFlow.value = arena
+    val arena = parseArena(arenaDraw)
+    globalArenaSetter.set(arena)
 }
 
 /**

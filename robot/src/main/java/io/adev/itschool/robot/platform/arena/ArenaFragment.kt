@@ -78,8 +78,6 @@ class ArenaFragment : BaseFragment(), ArenaView {
             moveRobot(robotBinding, robotState, pointSize)
             robotBinding.root.alpha = if (!robotState.isDestroyed) 1f else 0.3f
             currentDrawnRobotState = robotState
-        } else {
-            viewModel.onRobotMoved()
         }
     }
 
