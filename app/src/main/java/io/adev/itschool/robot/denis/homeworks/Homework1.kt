@@ -1,11 +1,11 @@
 package io.adev.itschool.robot.denis.homeworks
 
-import io.adev.itschool.robot.down
-import io.adev.itschool.robot.left
-import io.adev.itschool.robot.right
-import io.adev.itschool.robot.up
+import io.adev.itschool.robot.*
+import io.adev.itschool.robot.levels.level1
+import io.adev.itschool.robot.levels.levelHomework1Denis
 
 fun denisHomework1() {
+    setArenaDraw(levelHomework1Denis)
     leftFoot()
     leftHand()
     head()
