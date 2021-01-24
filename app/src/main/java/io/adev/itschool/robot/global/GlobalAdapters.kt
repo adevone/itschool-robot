@@ -1,46 +1,56 @@
-package io.adev.itschool.robot
+package io.adev.itschool.robot.global
 
 import io.adev.itschool.robot.common.arena.RobotController
-import io.adev.itschool.robot.common.arena.entity.arena.parseArena
+import io.adev.itschool.robot.common.arena.entity.arena.Arena
+import io.adev.itschool.robot.levels.arena1
+import io.adev.itschool.robot.levels.demoArena
 import io.adev.itschool.robot.platform.arena.ArenaHolder
 
 lateinit var globalRobotController: RobotController
 lateinit var globalArenaHolder: ArenaHolder
 
-fun setArenaDraw(arenaDraw: String) {
-    globalArenaHolder.arena = parseArena(arenaDraw)
+fun setArena(arena: Arena) {
+    globalArenaHolder.arena = arena
+}
+
+fun setDemoArena() {
+    setArena(demoArena)
+}
+
+fun setArena1() {
+    setArena(arena1)
 }
 
 /**
  * Передвинуться вправо на [stepsCount]
  * Если [stepsCount] не указано, то на 1 шаг
  */
-fun right(stepsCount: Int = 1) {
-    globalRobotController.right(stepsCount)
+fun moveRight(stepsCount: Int = 1) {
+    globalRobotController.moveRight(stepsCount)
 }
 
 /**
  * Передвинуться влево на [stepsCount].
  * Если [stepsCount] не указано, то на 1 шаг.
  */
-fun left(stepsCount: Int = 1) {
-    globalRobotController.left(stepsCount)
+fun moveLeft(stepsCount: Int = 1) {
+    globalRobotController.moveLeft(stepsCount)
 }
 
 /**
  * Передвинуться вниз на [stepsCount].
  * Если [stepsCount] не указано, то на 1 шаг.
  */
-fun down(stepsCount: Int = 1) {
-    globalRobotController.down(stepsCount)
+fun moveDown(stepsCount: Int = 1) {
+    globalRobotController.moveDown(stepsCount)
 }
 
 /**
  * Передвинуться вверх на [stepsCount].
  * Если [stepsCount] не указано, то на 1 шаг.
  */
-fun up(stepsCount: Int = 1) {
-    globalRobotController.up(stepsCount)
+fun moveUp(stepsCount: Int = 1) {
+    globalRobotController.moveUp(stepsCount)
 }
 
 /**

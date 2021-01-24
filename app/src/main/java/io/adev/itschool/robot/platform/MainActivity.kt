@@ -3,9 +3,9 @@ package io.adev.itschool.robot.platform
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import io.adev.itschool.robot.app.R
-import io.adev.itschool.robot.globalArenaHolder
+import io.adev.itschool.robot.global.globalArenaHolder
 import io.adev.itschool.robot.run
-import io.adev.itschool.robot.globalRobotController
+import io.adev.itschool.robot.global.globalRobotController
 import io.adev.itschool.robot.platform.arena.ArenaFragment
 
 class MainActivity : AppCompatActivity() {

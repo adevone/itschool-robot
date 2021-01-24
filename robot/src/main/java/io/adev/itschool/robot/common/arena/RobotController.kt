@@ -23,25 +23,25 @@ class RobotController(
         updateState(state = currentState.display(password))
     }
 
-    fun right(stepsCount: Int = 1) {
+    fun moveRight(stepsCount: Int = 1) {
         repeat(stepsCount) {
             move(movement = Position.Movement.Right)
         }
     }
 
-    fun left(stepsCount: Int = 1) {
+    fun moveLeft(stepsCount: Int = 1) {
         repeat(stepsCount) {
             move(movement = Position.Movement.Left)
         }
     }
 
-    fun down(stepsCount: Int = 1) {
+    fun moveDown(stepsCount: Int = 1) {
         repeat(stepsCount) {
             move(movement = Position.Movement.Down)
         }
     }
 
-    fun up(stepsCount: Int = 1) {
+    fun moveUp(stepsCount: Int = 1) {
         repeat(stepsCount) {
             move(movement = Position.Movement.Up)
         }

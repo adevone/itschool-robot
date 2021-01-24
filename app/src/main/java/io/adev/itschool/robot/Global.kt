@@ -1,10 +1,12 @@
 package io.adev.itschool.robot
 
-import io.adev.itschool.robot.levels.level1
+import io.adev.itschool.robot.global.moveDown
+import io.adev.itschool.robot.global.moveRight
+import io.adev.itschool.robot.global.setDemoArena
 
 fun run() {
-    setArenaDraw(arenaDraw = level1)
-    right()
-    right()
-    down()
+    setDemoArena()
+    moveRight()
+    moveRight()
+    moveDown()
 }
