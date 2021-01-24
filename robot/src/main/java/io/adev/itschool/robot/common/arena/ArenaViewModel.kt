@@ -46,7 +46,7 @@ class ArenaViewModel(
             }
         }
 
-    private val robot = Robot(
+    private val robot = RobotController(
         applyStates = { states ->
             statesApplier.applyStates(states, statesApplierCallback, useCallback = { action ->
                 launch {

@@ -5,7 +5,7 @@ import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.arena.RobotStateMutationsProvider
 import io.adev.itschool.robot.platform.arena.ArenaHolder
 
-class Robot(
+class RobotController(
     private val applyStates: (List<RobotState>) -> Unit,
 ) : RobotState.Source {
 
@@ -94,7 +94,7 @@ class Robot(
 interface RobotExecutor {
 
     fun execute(
-        robot: Robot, arenaHolder: ArenaHolder, userAction: UserAction,
+        robotController: RobotController, arenaHolder: ArenaHolder, userAction: UserAction,
         callback: Callback, useCallback: (() -> Unit) -> Unit,
     )
 
@@ -104,7 +104,7 @@ interface RobotExecutor {
     }
 }
 
-typealias UserAction = (Robot, ArenaHolder) -> Unit
+typealias UserAction = (RobotController, ArenaHolder) -> Unit
 
 interface RobotStatesApplier {
 

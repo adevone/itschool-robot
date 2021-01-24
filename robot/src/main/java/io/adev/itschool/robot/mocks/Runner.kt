@@ -1,6 +1,6 @@
 package io.adev.itschool.robot.mocks
 
-import io.adev.itschool.robot.common.arena.Robot
+import io.adev.itschool.robot.common.arena.RobotController
 import io.adev.itschool.robot.common.arena.RobotExecutor
 import io.adev.itschool.robot.common.arena.RobotStatesApplier
 import io.adev.itschool.robot.common.arena.UserAction
@@ -12,8 +12,8 @@ fun runMockRobot(arena: Arena, run: UserAction) {
     var exception: Exception? = null
     val executor = MockRobotExecutor()
     val statesApplier = MockRobotStatesApplier()
-    lateinit var robot: Robot
-    robot = Robot(
+    lateinit var robotController: RobotController
+    robotController = RobotController(
         applyStates = { states ->
             statesApplier.applyStates(
                 states = states,
@@ -24,7 +24,7 @@ fun runMockRobot(arena: Arena, run: UserAction) {
                     }
 
                     override fun onStateApplied(state: RobotState) {
-                        robot.onStateApplied(state)
+                        robotController.onStateApplied(state)
                     }
                 },
                 useCallback = {}
@@ -35,7 +35,7 @@ fun runMockRobot(arena: Arena, run: UserAction) {
         it.updateState(arena.initialRobotState)
     }
     executor.execute(
-        robot = robot,
+        robotController = robotController,
         arenaHolder = ArenaHolder {},
         userAction = run,
         callback = object : RobotExecutor.Callback {
