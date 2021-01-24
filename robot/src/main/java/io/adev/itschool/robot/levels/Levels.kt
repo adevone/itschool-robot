@@ -12,14 +12,15 @@ ppppp
 
 @Suppress("SpellCheckingInspection")
 val arena1 = parseArena("""
-pppppppppp
-r        p
-pppppp ppp
-p   p  ppp
-p p   pppp
-p  pppp tp
-pp       p
-pppppppppp
+ppppppppp
+ppp   ppp
+ppp p ppp
+p   p   p
+p ppppp p
+p     ptp
+ppp p ppp
+ppp p ppp
+ppr p  pp
 """.trim())
 
 @Suppress("SpellCheckingInspection")
