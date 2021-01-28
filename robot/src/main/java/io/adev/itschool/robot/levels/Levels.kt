@@ -85,3 +85,15 @@ pr #p
 ppptp
 ppppp
 """.trim())
+
+@Suppress("SpellCheckingInspection")
+val arena6 = parseArena("""
+pppppppppp
+r        p
+pppppp#ppp
+p   p  ppp
+p#p   pppp
+p  pppp tp
+pp   #   p
+pppppppppp
+""".trim())
