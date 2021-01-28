@@ -37,9 +37,11 @@ sealed class LockBlock(position: Position) : Block(position)
 
 class AuthBlock(position: Position) : LockBlock(position) {
 
-    override fun afterRobotMove(robotState: RobotState): RobotState? {
+    override fun beforeRobotMove(robotState: RobotState): RobotState? {
         return if (robotState.position == position)
-            robotState.also { it.checkToken() }
+            robotState.also { state ->
+                state.checkToken()
+            }
         else
             null
     }
