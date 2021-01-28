@@ -1,11 +1,14 @@
 package io.adev.itschool.robot.denis.homeworks
 
-import io.adev.itschool.robot.down
-import io.adev.itschool.robot.left
-import io.adev.itschool.robot.right
-import io.adev.itschool.robot.up
+import io.adev.itschool.robot.global.moveDown
+import io.adev.itschool.robot.global.moveLeft
+import io.adev.itschool.robot.levels.homework1DenisArena
+import io.adev.itschool.robot.global.moveRight
+import io.adev.itschool.robot.global.setArena
+import io.adev.itschool.robot.global.moveUp
 
 fun denisHomework1() {
+    setArena(homework1DenisArena)
     leftFoot()
     leftHand()
     head()
@@ -13,34 +16,34 @@ fun denisHomework1() {
 }
 
 fun leftFoot() {
-    right()
-    up()
-    up()
+    moveRight()
+    moveUp()
+    moveUp()
 }
 
 fun leftHand() {
-    up()
-    left()
-    left()
-    up()
-    up()
-    right()
-    right()
+    moveUp()
+    moveLeft()
+    moveLeft()
+    moveUp()
+    moveUp()
+    moveRight()
+    moveRight()
 }
 
 fun head() {
-    up()
-    up()
-    right()
-    right()
-    down()
+    moveUp()
+    moveUp()
+    moveRight()
+    moveRight()
+    moveDown()
 }
 
 fun rightHand() {
-    down()
-    right()
-    right()
-    down()
-    down()
+    moveDown()
+    moveRight()
+    moveRight()
+    moveDown()
+    moveDown()
 }
 

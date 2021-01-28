@@ -1,8 +1,8 @@
 package io.adev.itschool.robot
 
-import io.adev.itschool.robot.common.arena.Robot
-import io.adev.itschool.robot.common.arena.entity.arena.Arena
+import io.adev.itschool.robot.common.arena.RobotController
+import io.adev.itschool.robot.platform.arena.ArenaHolder
 
-fun run(robot: Robot, arena: Arena) {
+fun run(robotController: RobotController, arenaHolder: ArenaHolder) {
 
 }

@@ -1,10 +1,13 @@
 package io.adev.itschool.robot.eduard.homeworks
 
-import io.adev.itschool.robot.down
-import io.adev.itschool.robot.right
-import io.adev.itschool.robot.up
+import io.adev.itschool.robot.global.moveDown
+import io.adev.itschool.robot.levels.homework1EdwardArena
+import io.adev.itschool.robot.global.moveRight
+import io.adev.itschool.robot.global.setArena
+import io.adev.itschool.robot.global.moveUp
 
 fun eduardHomework1() {
+    setArena(homework1EdwardArena)
     koleso1()
     bamper()
     kyzov()
@@ -12,29 +15,29 @@ fun eduardHomework1() {
 }
 
 fun koleso1() {
-    right()
-    up()
-    up()
-    right()
+    moveRight()
+    moveUp()
+    moveUp()
+    moveRight()
 }
 
 fun bamper() {
-    up()
-    right()
+    moveUp()
+    moveRight()
 }
 
 fun kyzov() {
-    right()
-    right()
-    right()
-    right()
-    right()
-    right()
-    right()
+    moveRight()
+    moveRight()
+    moveRight()
+    moveRight()
+    moveRight()
+    moveRight()
+    moveRight()
 }
 
 fun koleso2() {
-    down()
-    down()
-    down()
+    moveDown()
+    moveDown()
+    moveDown()
 }

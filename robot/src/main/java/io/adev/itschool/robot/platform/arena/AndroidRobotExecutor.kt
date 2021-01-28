@@ -1,24 +1,22 @@
 package io.adev.itschool.robot.platform.arena
 
 import android.os.ConditionVariable
-import io.adev.itschool.robot.common.arena.Robot
+import io.adev.itschool.robot.common.arena.RobotController
 import io.adev.itschool.robot.common.arena.RobotExecutor
 import io.adev.itschool.robot.common.arena.RobotStatesApplier
 import io.adev.itschool.robot.common.arena.UserAction
 import io.adev.itschool.robot.common.arena.entity.RobotState
-import io.adev.itschool.robot.common.arena.entity.arena.Arena
 
 class AndroidRobotExecutor : RobotExecutor {
 
     override fun execute(
-        robot: Robot, arena: Arena, userAction: UserAction,
+        robotController: RobotController, arenaHolder: ArenaHolder, userAction: UserAction,
         callback: RobotExecutor.Callback, useCallback: (() -> Unit) -> Unit,
     ) {
         Thread {
             try {
-                robot.applyInitialState()
-                userAction(robot, arena)
-                robot.requireWon()
+                userAction(robotController, arenaHolder)
+                robotController.requireWon()
                 useCallback {
                     callback.onWon()
                 }

@@ -1,27 +1,17 @@
 package io.adev.itschool.robot.levels
 
+import io.adev.itschool.robot.common.arena.entity.arena.parseArena
+
 @Suppress("SpellCheckingInspection")
-val level1 = """
+val demoArena = parseArena("""
 ppppp
 pr  p
 ppptp
 ppppp
-""".trim()
+""".trim())
 
 @Suppress("SpellCheckingInspection")
-val level2 = """
-pppppppppp
-r        p
-pppppp ppp
-p   p  ppp
-p p   pppp
-p  pppp tp
-pp       p
-pppppppppp
-""".trim()
-
-@Suppress("SpellCheckingInspection")
-val levelHomework1Denis = """
+val arena1 = parseArena("""
 ppppppppp
 ppp   ppp
 ppp p ppp
@@ -31,28 +21,53 @@ p     ptp
 ppp p ppp
 ppp p ppp
 ppr p  pp
-""".trim()
+""".trim())
 
 @Suppress("SpellCheckingInspection")
-val levelHomework1Edward = """
+val arena2 = parseArena("""
+pppppppppp
+r        p
+pppppp ppp
+p   p  ppp
+p p   pppp
+p  pppp tp
+pp       p
+pppppppppp
+""".trim())
+
+@Suppress("SpellCheckingInspection")
+val homework1DenisArena = parseArena("""
+ppppppppp
+ppp   ppp
+ppp p ppp
+p   p   p
+p ppppp p
+p     ptp
+ppp p ppp
+ppp p ppp
+ppr p  pp
+""".trim())
+
+@Suppress("SpellCheckingInspection")
+val homework1EdwardArena = parseArena("""
 pppppppppppppppppp
 ppppp        ppppp
 pppp         ppppp
 p    ppppppp  pppp
 p    p     p  pppp
 ppr ppppppp tppppp
-""".trim()
+""".trim())
 
 @Suppress("SpellCheckingInspection")
-val level3 = """
+val arena3 = parseArena("""
 ppppp
 pr *p
 ppptp
 ppppp
-""".trim()
+""".trim())
 
 @Suppress("SpellCheckingInspection")
-val level4 = """
+val arena4 = parseArena("""
 pppppppppp
 r        p
 pppppp*ppp
@@ -61,4 +76,4 @@ p*p   pppp
 p  pppp tp
 pp   *   p
 pppppppppp
-""".trim()
+""".trim())

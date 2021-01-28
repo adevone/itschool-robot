@@ -1,17 +1,12 @@
 package io.adev.itschool.robot
 
-import io.adev.itschool.robot.levels.level3
-
-val arenaDraw = level3
+import io.adev.itschool.robot.global.moveDown
+import io.adev.itschool.robot.global.moveRight
+import io.adev.itschool.robot.global.setDemoArena
 
 fun run() {
-    display(password = "p31")
-    right(stepsCount = 2)
-    down()
+    setDemoArena()
+    moveRight()
+    moveRight()
+    moveDown()
 }
-
-
-
-
-
-
