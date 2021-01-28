@@ -19,6 +19,15 @@ class RobotController(
 
     private lateinit var currentState: RobotState
 
+    fun authenticate(): String {
+        updateState(currentState.authenticate())
+        return currentState.getToken()
+    }
+
+    fun authorize(token: String) {
+        updateState(currentState.authorize(token))
+    }
+
     fun display(password: String) {
         updateState(state = currentState.display(password))
     }
@@ -56,6 +65,10 @@ class RobotController(
         applyStates(statesList)
     }
 
+    fun finish(reason: String?) {
+        updateState(currentState.finish(reason))
+    }
+
     private fun makeStatesList(state: RobotState): List<RobotState> {
 
         val list = mutableListOf<RobotState>()
@@ -81,8 +94,8 @@ class RobotController(
     fun onStateApplied(state: RobotState) {
         stateHistory.add(state)
         currentState = state
-        if (state.isDestroyed) {
-            throw RobotDestroyedException(state, stateHistory)
+        if (state.finishReason != null) {
+            throw FinishedException(state.finishReason, state, stateHistory)
         }
     }
 
@@ -121,11 +134,12 @@ interface RobotStatesApplier {
     }
 }
 
-class RobotDestroyedException(
+class FinishedException(
+    message: String,
     state: RobotState,
     stateHistory: List<RobotState>,
 ) : IllegalStateException(
-    "robot is destroyed, state=$state, history:\n${formatHistory(stateHistory)}"
+    "$message, state=$state, history:\n${formatHistory(stateHistory)}"
 )
 
 class NotCompleteException(

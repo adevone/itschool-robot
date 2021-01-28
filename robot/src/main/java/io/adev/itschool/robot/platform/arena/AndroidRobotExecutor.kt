@@ -21,6 +21,7 @@ class AndroidRobotExecutor : RobotExecutor {
                     callback.onWon()
                 }
             } catch (e: Exception) {
+                robotController.finish(e.message)
                 useCallback {
                     callback.onFailure(e)
                 }

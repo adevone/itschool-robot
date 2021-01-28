@@ -2,7 +2,7 @@ package io.adev.itschool.robot.tests
 
 import io.adev.itschool.robot.common.arena.NotCompleteException
 import io.adev.itschool.robot.common.arena.RobotController
-import io.adev.itschool.robot.common.arena.RobotDestroyedException
+import io.adev.itschool.robot.common.arena.FinishedException
 import io.adev.itschool.robot.common.arena.entity.Arena
 import io.adev.itschool.robot.common.arena.entity.parseArena
 import io.adev.itschool.robot.levels.arena1
@@ -26,7 +26,7 @@ class DemoTests {
 
     @Test
     fun brokenRight() {
-        assertFailsWith<RobotDestroyedException> {
+        assertFailsWith<FinishedException> {
             runMockRobot(
                 arena = arena1.parseArena(),
                 run = fun(robotController: RobotController, arena: Arena) {

@@ -3,7 +3,7 @@ package io.adev.itschool.robot
 import io.adev.itschool.robot.common.arena.entity.Position
 import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.arena.Arena
-import io.adev.itschool.robot.common.arena.entity.arena.blocks.PlatformBlock
+import io.adev.itschool.robot.common.arena.entity.arena.PlatformBlock
 import io.adev.itschool.robot.common.arena.entity.arena.parseArena
 import io.adev.itschool.robot.common.arena.entity.vp
 import org.junit.Assert.assertEquals
