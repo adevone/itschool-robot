@@ -34,5 +34,4 @@ fun denisLevel4(){
     moveRight(stepsCount = 6)
     // вызываем функцию moveUp, передавая ей значение 1 параметра stepsCount
     moveUp(stepsCount = 1)
-
 }
