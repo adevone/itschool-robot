@@ -20,13 +20,17 @@ import io.adev.itschool.robot.common.arena.UserAction
 import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.Size
 import io.adev.itschool.robot.common.arena.entity.arena.Arena
-import io.adev.itschool.robot.common.arena.entity.arena.blocks.Block
-import io.adev.itschool.robot.common.arena.entity.arena.blocks.PasswordBlock
-import io.adev.itschool.robot.common.arena.entity.arena.blocks.PlatformBlock
-import io.adev.itschool.robot.common.arena.entity.arena.blocks.TargetBlock
+import io.adev.itschool.robot.common.arena.entity.arena.AuthBlock
+import io.adev.itschool.robot.common.arena.entity.arena.Block
+import io.adev.itschool.robot.common.arena.entity.arena.LockBlock
+import io.adev.itschool.robot.common.arena.entity.arena.PasswordBlock
+import io.adev.itschool.robot.common.arena.entity.arena.PlatformBlock
+import io.adev.itschool.robot.common.arena.entity.arena.TargetBlock
+import io.adev.itschool.robot.common.arena.entity.arena.VoidBlock
 import io.adev.itschool.robot.common.arena.entity.rp
 import io.adev.itschool.robot.databinding.ArenaFragmentBinding
 import io.adev.itschool.robot.databinding.RobotViewBinding
+import io.adev.itschool.robot.exhaustive
 import io.adev.itschool.robot.platform.BaseFragment
 
 class ArenaFragment : BaseFragment(), ArenaView {
@@ -76,7 +80,7 @@ class ArenaFragment : BaseFragment(), ArenaView {
             val robotBinding = robotBinding(robotState, pointSize)
             setRobotText(robotBinding, robotState.text)
             moveRobot(robotBinding, robotState, pointSize)
-            robotBinding.root.alpha = if (!robotState.isDestroyed) 1f else 0.3f
+            robotBinding.root.alpha = if (robotState.finishReason == null) 1f else 0.3f
             currentDrawnRobotState = robotState
         }
     }
@@ -123,25 +127,32 @@ class ArenaFragment : BaseFragment(), ArenaView {
             is TargetBlock -> {
                 blockView.setImageResource(R.drawable.target)
             }
-            is PasswordBlock -> {
-                val passwordView = TextView(requireContext())
-                passwordView.textSize = 32f
-                passwordView.setTextColor(Color.parseColor("#D50000"))
-                passwordView.typeface = Typeface.DEFAULT_BOLD
-                passwordView.layoutParams = FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    gravity = Gravity.CENTER
-                }
-                passwordView.text = block.password
-                container.addView(passwordView)
+            is LockBlock -> {
                 blockView.setImageResource(R.drawable.password_texture)
+                when (block) {
+                    is AuthBlock -> {
+                        // do nothing
+                    }
+                    is PasswordBlock -> {
+                        val passwordView = TextView(requireContext())
+                        passwordView.textSize = 32f
+                        passwordView.setTextColor(Color.parseColor("#D50000"))
+                        passwordView.typeface = Typeface.DEFAULT_BOLD
+                        passwordView.layoutParams = FrameLayout.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                        ).apply {
+                            gravity = Gravity.CENTER
+                        }
+                        passwordView.text = block.password
+                        container.addView(passwordView)
+                    }
+                }.exhaustive
             }
-            else -> {
+            is VoidBlock -> {
                 blockView.setImageDrawable(null)
             }
-        }
+        }.exhaustive
         return container
     }
 

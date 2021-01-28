@@ -3,7 +3,6 @@ package io.adev.itschool.robot.common.arena.entity.arena
 import io.adev.itschool.robot.common.arena.entity.Position
 import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.Size
-import io.adev.itschool.robot.common.arena.entity.arena.blocks.*
 import io.adev.itschool.robot.common.arena.entity.vp
 
 data class Arena(
@@ -101,6 +100,7 @@ fun parseArena(draw: String): Arena {
                 'p' -> blocks.add(PlatformBlock(position))
                 't' -> blocks.add(TargetBlock(position))
                 '*' -> blocks.add(PasswordBlock(position))
+                '#' -> blocks.add(AuthBlock(position))
                 ' ' -> Unit // skip
                 else -> throw IllegalArgumentException("char can not be '$char' position=$position")
             }

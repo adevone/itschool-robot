@@ -60,3 +60,11 @@ fun moveUp(stepsCount: Int = 1) {
 fun display(password: String) {
     globalRobotController.display(password)
 }
+
+fun authenticate(): String {
+    return globalRobotController.authenticate()
+}
+
+fun authorize(token: String) {
+    globalRobotController.authorize(token)
+}
