@@ -1,12 +1,7 @@
 package io.adev.itschool.robot
 
-import io.adev.itschool.robot.global.moveDown
-import io.adev.itschool.robot.global.moveRight
-import io.adev.itschool.robot.global.setDemoArena
+import io.adev.itschool.robot.eduard.work.eduardAuth
 
 fun run() {
-    setDemoArena()
-    moveRight()
-    moveRight()
-    moveDown()
+    eduardAuth()
 }
