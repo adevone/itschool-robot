@@ -97,3 +97,42 @@ p  pppp tp
 pp   #   p
 pppppppppp
 """.trim())
+
+val homework3DenisArena = parseArena("""
+     pppppppppppppppppppp
+     p        p  p#       p
+     p   p         pp p   p pp
+pppppp       p    p  ppppppp  p
+p    p            p           p
+ ppppp     p   p #   #     #   p
+     p#pp#   p   p       p   # p
+   pppr   p       p  ppppppp#tp
+  p   pppppppppppp ppppppppppp
+  pppp  pppp      pppp  pppp
+""".trimIndent())
+
+val homework4EduardArena = parseArena("""
+pppp
+  rpp
+     p
+      p
+      p
+       p
+       ppp
+ p###pp   p
+ p    p    p
+p      p p p
+p      p   p
+p  p   pppp
+ p    #    p
+  pppp     p
+     p  pppp
+     pp#    p
+    p        p
+   p         p
+  p           p
+ p p         p
+ p p#####pppp
+ p       p
+  p    tp
+""".trimIndent())
