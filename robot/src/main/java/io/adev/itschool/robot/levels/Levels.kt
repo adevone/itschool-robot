@@ -111,7 +111,7 @@ p    p            p           p
   pppp  pppp      pppp  pppp
 """.trimIndent())
 
-val homework4EduardArena = parseArena("""
+val homework3EduardArena = parseArena("""
 pppp
   rpp
      p
