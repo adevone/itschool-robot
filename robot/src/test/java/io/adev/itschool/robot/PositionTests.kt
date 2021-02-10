@@ -10,28 +10,28 @@ class PositionTests {
     @Test
     fun right() {
         val expected = Position(x = 1.vp, y = 0.vp)
-        val position = Position(x = 0.vp, y = 0.vp).move(Position.Movement.Right)
+        val position = Position(x = 0.vp, y = 0.vp).move(Position.Direction.Right)
         assertEquals(expected, position)
     }
 
     @Test
     fun left() {
         val expected = Position(x = (-1).vp, y = 0.vp)
-        val position = Position(x = 0.vp, y = 0.vp).move(Position.Movement.Left)
+        val position = Position(x = 0.vp, y = 0.vp).move(Position.Direction.Left)
         assertEquals(expected, position)
     }
 
     @Test
     fun down() {
         val expected = Position(x = 0.vp, y = 1.vp)
-        val position = Position(x = 0.vp, y = 0.vp).move(Position.Movement.Down)
+        val position = Position(x = 0.vp, y = 0.vp).move(Position.Direction.Down)
         assertEquals(expected, position)
     }
 
     @Test
     fun up() {
         val expected = Position(x = 0.vp, y = (-1).vp)
-        val position = Position(x = 0.vp, y = 0.vp).move(Position.Movement.Up)
+        val position = Position(x = 0.vp, y = 0.vp).move(Position.Direction.Up)
         assertEquals(expected, position)
     }
 }

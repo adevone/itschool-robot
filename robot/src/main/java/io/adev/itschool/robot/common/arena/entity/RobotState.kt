@@ -10,6 +10,7 @@ data class RobotState(
     val nextStepToken: String? = null,
     val currentToken: String? = null,
     val code: Int? = null,
+    val beforeMove: () -> Unit,
     val isWon: Boolean = false,
     val source: Source? = null,
 ) {
@@ -23,9 +24,9 @@ data class RobotState(
         return copy(isWon = true, source = source)
     }
 
-    fun move(movement: Position.Movement, source: Source): RobotState {
+    fun move(direction: Position.Direction, source: Source): RobotState {
         return copy(
-            position = position.move(movement),
+            position = position.move(direction),
             nextStepToken = null,
             currentToken = nextStepToken,
             source = source
@@ -79,6 +80,10 @@ data class RobotState(
         if (text != codeString) {
             throw WrongCodeException()
         }
+    }
+
+    fun withBeforeMove(beforeMove: () -> Unit): RobotState {
+        return copy(beforeMove = beforeMove)
     }
 
     fun finish(reason: String?): RobotState {
