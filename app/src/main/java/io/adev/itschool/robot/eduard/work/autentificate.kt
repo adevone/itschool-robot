@@ -17,15 +17,15 @@ fun eduardAuth() {
     // Вызываем функцию setArena, придавая ей значение arena6 в качестве параметра arena
     setArena(arena = arena6)
     // Запомни, robotToken имеет значение authenticate
-    val robotToken = authenticate()
+    val robotToken1 = authenticate()
     // Вызываем функцию track
     track()
     // Вызываем функцию descent
-    descent()
+    descent(robotToken = robotToken1)
     // Вызываем функцию cave
-    cave()
+    cave(robotToken1)
     // Вызываем функцию output
-    output()
+    output(robotToken1)
 }
 // Определяем функцию track
 fun track() {
@@ -33,9 +33,7 @@ fun track() {
     moveRight(stepsCount = 6)
 }
 // Определяем функцию descent
-fun descent() {
-    // Запомни, robotToken имеет значение authenticate
-    val robotToken = authenticate()
+fun descent(robotToken: String) {
     // Вызываем функцию authorize, придывая ей значение robotToken в качестве параметра token
     authorize(token = robotToken)
     // Вызываем функцию moveDown, придавая ей значение 2 в качестве параметра stepsCount
@@ -48,9 +46,8 @@ fun descent() {
     moveLeft(stepsCount = 2)
 }
 // Определяем функцию cave
-fun cave() {
-    // Вызываем функцию moveUp
-    moveUp()
+fun cave(robotToken: String) {
+        moveUp()
     // Вызываем функцию moveLeft, придавая ей значение 2 в качестве параметра stepsCount
     moveLeft(stepsCount = 2)
     // Вызываем функцию authorize, придавая ей значение robotToken в качестве параметра token
@@ -63,9 +60,7 @@ fun cave() {
     moveDown()
 }
 // Определяем функцию output
-fun output() {
-    // Запомни, robotToken имеет значение authenticate
-    val robotToken = authenticate()
+fun output(robotToken: String) {
     // Вызываем функцию moveRight, придавая ей значение 2 в качестве парамметра moveRight
     moveRight(stepsCount = 2)
     // Вызываем функцию authorize, придавая ей значение robotToken в качестве параметра token
