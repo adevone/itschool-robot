@@ -85,6 +85,10 @@ fun isAuthDown(): Boolean {
     return globalRobotController.isAuthDown(arena = globalArenaHolder.arena!!)
 }
 
+fun currentCode(): Int {
+    return globalRobotController.currentCode(arena = globalArenaHolder.arena!!)
+}
+
 fun setBeforeMove(beforeMove: () -> Unit) {
     return globalRobotController.setBeforeMove(beforeMove)
 }

@@ -166,7 +166,7 @@ class ArenaFragment : BaseFragment(), ArenaView {
                 container.addView(codeView)
             }
             is VerifyCodeBlock -> {
-                blockView.setImageResource(R.drawable.password_texture)
+                blockView.setImageResource(R.drawable.verify)
             }
         }.exhaustive
         return container

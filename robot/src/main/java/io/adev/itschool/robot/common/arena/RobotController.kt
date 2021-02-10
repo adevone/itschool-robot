@@ -4,6 +4,7 @@ import io.adev.itschool.robot.common.arena.entity.Position
 import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.arena.Arena
 import io.adev.itschool.robot.common.arena.entity.arena.AuthBlock
+import io.adev.itschool.robot.common.arena.entity.arena.CodeBlock
 import io.adev.itschool.robot.common.arena.entity.arena.RobotStateMutationsProvider
 import io.adev.itschool.robot.platform.arena.ArenaHolder
 
@@ -49,6 +50,12 @@ class RobotController(
     private fun isAuth(arena: Arena, direction: Position.Direction): Boolean {
         val rightPosition = currentState.position.move(direction)
         return arena.blockOn(rightPosition) is AuthBlock
+    }
+
+    fun currentCode(arena: Arena): Int {
+        val codeBlock = arena.blockOn(currentState.position) as? CodeBlock
+            ?: throw IllegalStateException("robot is not on CodeBlock now")
+        return codeBlock.code
     }
 
     fun display(password: String) {
