@@ -136,3 +136,18 @@ p  p   pppp
  p       p
   p    tp
 """.trimIndent())
+
+val arena7 = parseArena("""
+ppppppppppp
+ptppppppprp
+p  ppppp  p
+pp  ppp  pp
+ppp# p  ppp
+p### p  c p
+p#ppppppp p
+p#ppppppp p
+p pppppppvp
+pv #  c   p
+pp ppppp pp
+ppppppppppp
+""".trimIndent())
