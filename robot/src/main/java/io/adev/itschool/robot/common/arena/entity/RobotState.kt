@@ -10,7 +10,7 @@ data class RobotState(
     val nextStepToken: String? = null,
     val currentToken: String? = null,
     val code: Int? = null,
-    val beforeMove: () -> Unit,
+    val beforeMove: () -> Unit = {},
     val isWon: Boolean = false,
     val source: Source? = null,
 ) {
