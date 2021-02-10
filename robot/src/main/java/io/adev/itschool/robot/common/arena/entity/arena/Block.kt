@@ -5,6 +5,7 @@ import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.Size
 import io.adev.itschool.robot.common.arena.entity.SizePoint
 import io.adev.itschool.robot.common.arena.entity.vp
+import kotlin.math.absoluteValue
 import kotlin.random.Random
 
 sealed class Block(
@@ -60,7 +61,7 @@ class PasswordBlock(position: Position) : Block(position) {
 
 class CodeBlock(position: Position) : Block(position) {
 
-    val code = Random.nextInt() % 10
+    val code = Random.nextInt().absoluteValue % 10
 
     override fun afterRobotMove(robotState: RobotState): RobotState? {
         return if (robotState.position == position)
