@@ -142,9 +142,9 @@ ppppppppppp
 ptppppppprp
 p  ppppp  p
 pp  ppp  pp
-ppp# p  ppp
-p### p  c p
-p#ppppppp p
+ppp  p  ppp
+p    p  c p
+p ppppppp p
 p#ppppppp p
 p pppppppvp
 pv #  c   p
