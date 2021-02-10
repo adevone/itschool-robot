@@ -9,9 +9,13 @@ data class RobotState(
     val authorizedPosition: Position? = null,
     val nextStepToken: String? = null,
     val currentToken: String? = null,
+    val code: Int? = null,
+    val beforeMove: () -> Unit,
     val isWon: Boolean = false,
     val source: Source? = null,
 ) {
+    val size = Size.Virtual(width = 1.vp, height = 1.vp)
+
     fun destroyed(source: Source): RobotState {
         return copy(finishReason = "Robot is destroyed", source = source)
     }
@@ -20,35 +24,13 @@ data class RobotState(
         return copy(isWon = true, source = source)
     }
 
-    fun move(movement: Position.Movement, source: Source): RobotState {
+    fun move(direction: Position.Direction, source: Source): RobotState {
         return copy(
-            position = position.move(movement),
+            position = position.move(direction),
             nextStepToken = null,
             currentToken = nextStepToken,
             source = source
         )
-    }
-
-    val size = Size.Virtual(width = 1.vp, height = 1.vp)
-
-    override fun toString(): String {
-        return "$position finishReason=$finishReason from=${source?.sourceRepresentation()}"
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (other !is RobotState) return false
-        return position == other.position &&
-                isWon == other.isWon &&
-                finishReason == other.finishReason &&
-                size == other.size
-    }
-
-    override fun hashCode(): Int {
-        var result = position.hashCode()
-        result = 31 * result + finishReason.hashCode()
-        result = 31 * result + isWon.hashCode()
-        result = 31 * result + size.hashCode()
-        return result
     }
 
     fun display(text: String): RobotState {
@@ -77,8 +59,39 @@ data class RobotState(
         return authorizedPosition?.hash() ?: throw NotAuthenticatedException()
     }
 
+    fun withCode(code: Int): RobotState {
+        return copy(code = code)
+    }
+
+    fun checkCode() {
+        val codeString = when (code) {
+            0 -> "zero"
+            1 -> "one"
+            2 -> "two"
+            3 -> "three"
+            4 -> "four"
+            5 -> "five"
+            6 -> "six"
+            7 -> "seven"
+            8 -> "eight"
+            9 -> "nine"
+            else -> throw WrongCodeException()
+        }
+        if (text != codeString) {
+            throw WrongCodeException()
+        }
+    }
+
+    fun withBeforeMove(beforeMove: () -> Unit): RobotState {
+        return copy(beforeMove = beforeMove)
+    }
+
     fun finish(reason: String?): RobotState {
         return copy(finishReason = reason)
+    }
+
+    override fun toString(): String {
+        return "$position finishReason=$finishReason from=${source?.sourceRepresentation()}"
     }
 
     interface Source {
@@ -91,3 +104,5 @@ class AlreadyHaveTokenException : IllegalStateException("You've already got toke
 class NotAuthenticatedException : IllegalStateException("Robot is not authenticated")
 
 class NotAuthorizedException : IllegalStateException("Robot is not authorized")
+
+class WrongCodeException : IllegalStateException("Robot is displaying wrong code")

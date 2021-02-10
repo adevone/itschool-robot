@@ -10,16 +10,16 @@ data class Position(
         return isInHor && isInVer
     }
 
-    fun move(movement: Movement): Position {
-        return when (movement) {
-            Movement.Left -> copy(x = x - 1.vp)
-            Movement.Right -> copy(x = x + 1.vp)
-            Movement.Up -> copy(y = y - 1.vp)
-            Movement.Down -> copy(y = y + 1.vp)
+    fun move(direction: Direction): Position {
+        return when (direction) {
+            Direction.Left -> copy(x = x - 1.vp)
+            Direction.Right -> copy(x = x + 1.vp)
+            Direction.Up -> copy(y = y - 1.vp)
+            Direction.Down -> copy(y = y + 1.vp)
         }
     }
 
-    enum class Movement {
+    enum class Direction {
         Left,
         Right,
         Up,

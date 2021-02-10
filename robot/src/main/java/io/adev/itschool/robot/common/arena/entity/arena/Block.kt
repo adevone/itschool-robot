@@ -5,6 +5,7 @@ import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.Size
 import io.adev.itschool.robot.common.arena.entity.SizePoint
 import io.adev.itschool.robot.common.arena.entity.vp
+import kotlin.random.Random
 
 sealed class Block(
     val position: Position,
@@ -33,9 +34,7 @@ sealed class Block(
     }
 }
 
-sealed class LockBlock(position: Position) : Block(position)
-
-class AuthBlock(position: Position) : LockBlock(position) {
+class AuthBlock(position: Position) : Block(position) {
 
     override fun beforeRobotMove(robotState: RobotState): RobotState? {
         return if (robotState.position == position)
@@ -47,13 +46,37 @@ class AuthBlock(position: Position) : LockBlock(position) {
     }
 }
 
-class PasswordBlock(position: Position) : LockBlock(position) {
+class PasswordBlock(position: Position) : Block(position) {
 
     val password = position.hash()
 
     override fun beforeRobotMove(robotState: RobotState): RobotState? {
         return if (robotState.position == position && robotState.text != password)
             robotState.destroyed(source = this)
+        else
+            null
+    }
+}
+
+class CodeBlock(position: Position) : Block(position) {
+
+    val code = Random.nextInt() % 10
+
+    override fun afterRobotMove(robotState: RobotState): RobotState? {
+        return if (robotState.position == position)
+            robotState.withCode(code)
+        else
+            null
+    }
+}
+
+class VerifyCodeBlock(position: Position) : Block(position) {
+
+    override fun beforeRobotMove(robotState: RobotState): RobotState? {
+        return if (robotState.position == position)
+            robotState.also { state ->
+                state.checkCode()
+            }
         else
             null
     }

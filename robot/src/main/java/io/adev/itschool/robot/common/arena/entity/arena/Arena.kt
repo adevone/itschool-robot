@@ -101,6 +101,8 @@ fun parseArena(draw: String): Arena {
                 't' -> blocks.add(TargetBlock(position))
                 '*' -> blocks.add(PasswordBlock(position))
                 '#' -> blocks.add(AuthBlock(position))
+                'c' -> blocks.add(CodeBlock(position))
+                'v' -> blocks.add(VerifyCodeBlock(position))
                 ' ' -> Unit // skip
                 else -> throw IllegalArgumentException("char can not be '$char' position=$position")
             }
