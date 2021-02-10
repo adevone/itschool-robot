@@ -15,13 +15,17 @@ class AndroidRobotExecutor : RobotExecutor {
     ) {
         Thread {
             try {
-                userAction(robotController, arenaHolder)
-                robotController.requireWon()
-                useCallback {
-                    callback.onWon()
+                try {
+                    userAction(robotController, arenaHolder)
+                    robotController.requireWon()
+                    useCallback {
+                        callback.onWon()
+                    }
+                } catch (e: Exception) {
+                    robotController.finish(e.message)
+                    throw e
                 }
             } catch (e: Exception) {
-                robotController.finish(e.message)
                 useCallback {
                     callback.onFailure(e)
                 }

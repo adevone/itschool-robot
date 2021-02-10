@@ -6,14 +6,14 @@ data class RobotState(
     val position: Position,
     val text: String = "",
     val finishReason: String? = null,
-    val wasMoved: Boolean = false,
     val authorizedPosition: Position? = null,
+    val nextStepToken: String? = null,
     val currentToken: String? = null,
     val isWon: Boolean = false,
     val source: Source? = null,
 ) {
     fun destroyed(source: Source): RobotState {
-        return copy(finishReason = "robot is destroyed", source = source)
+        return copy(finishReason = "Robot is destroyed", source = source)
     }
 
     fun won(source: TargetBlock): RobotState {
@@ -23,8 +23,8 @@ data class RobotState(
     fun move(movement: Position.Movement, source: Source): RobotState {
         return copy(
             position = position.move(movement),
-            wasMoved = true,
-            currentToken = null,
+            nextStepToken = null,
+            currentToken = nextStepToken,
             source = source
         )
     }
@@ -56,14 +56,14 @@ data class RobotState(
     }
 
     fun authenticate(): RobotState {
-        return if (!wasMoved)
+        return if (authorizedPosition == null)
             copy(authorizedPosition = position)
         else
-            throw RobotWasMovedException()
+            throw AlreadyHaveTokenException()
     }
 
     fun authorize(token: String): RobotState {
-        return copy(currentToken = token)
+        return copy(nextStepToken = token)
     }
 
     fun checkToken() {
@@ -86,8 +86,8 @@ data class RobotState(
     }
 }
 
-class RobotWasMovedException : IllegalStateException("robot must not be moved yet to authorization")
+class AlreadyHaveTokenException : IllegalStateException("You've already got token. Use it")
 
-class NotAuthenticatedException : IllegalStateException("robot is not authenticated")
+class NotAuthenticatedException : IllegalStateException("Robot is not authenticated")
 
-class NotAuthorizedException : IllegalStateException("robot is not authorized")
+class NotAuthorizedException : IllegalStateException("Robot is not authorized")
