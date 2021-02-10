@@ -68,3 +68,23 @@ fun authenticate(): String {
 fun authorize(token: String) {
     globalRobotController.authorize(token)
 }
+
+fun isAuthLeft(): Boolean {
+    return globalRobotController.isAuthLeft(arena = globalArenaHolder.arena!!)
+}
+
+fun isAuthRight(): Boolean {
+    return globalRobotController.isAuthRight(arena = globalArenaHolder.arena!!)
+}
+
+fun isAuthUp(): Boolean {
+    return globalRobotController.isAuthUp(arena = globalArenaHolder.arena!!)
+}
+
+fun isAuthDown(): Boolean {
+    return globalRobotController.isAuthDown(arena = globalArenaHolder.arena!!)
+}
+
+fun setBeforeMove(beforeMove: () -> Unit) {
+    return globalRobotController.setBeforeMove(beforeMove)
+}

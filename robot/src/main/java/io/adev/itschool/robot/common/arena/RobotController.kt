@@ -2,6 +2,8 @@ package io.adev.itschool.robot.common.arena
 
 import io.adev.itschool.robot.common.arena.entity.Position
 import io.adev.itschool.robot.common.arena.entity.RobotState
+import io.adev.itschool.robot.common.arena.entity.arena.Arena
+import io.adev.itschool.robot.common.arena.entity.arena.AuthBlock
 import io.adev.itschool.robot.common.arena.entity.arena.RobotStateMutationsProvider
 import io.adev.itschool.robot.platform.arena.ArenaHolder
 
@@ -28,36 +30,61 @@ class RobotController(
         updateState(currentState.authorize(token))
     }
 
+    fun isAuthLeft(arena: Arena): Boolean {
+        return isAuth(arena, direction = Position.Direction.Left)
+    }
+
+    fun isAuthRight(arena: Arena): Boolean {
+        return isAuth(arena, direction = Position.Direction.Right)
+    }
+
+    fun isAuthUp(arena: Arena): Boolean {
+        return isAuth(arena, direction = Position.Direction.Up)
+    }
+
+    fun isAuthDown(arena: Arena): Boolean {
+        return isAuth(arena, direction = Position.Direction.Down)
+    }
+
+    private fun isAuth(arena: Arena, direction: Position.Direction): Boolean {
+        val rightPosition = currentState.position.move(direction)
+        return arena.blockOn(rightPosition) is AuthBlock
+    }
+
     fun display(password: String) {
         updateState(state = currentState.display(password))
     }
 
     fun moveRight(stepsCount: Int = 1) {
         repeat(stepsCount) {
-            move(movement = Position.Movement.Right)
+            move(direction = Position.Direction.Right)
         }
     }
 
     fun moveLeft(stepsCount: Int = 1) {
         repeat(stepsCount) {
-            move(movement = Position.Movement.Left)
+            move(direction = Position.Direction.Left)
         }
     }
 
     fun moveDown(stepsCount: Int = 1) {
         repeat(stepsCount) {
-            move(movement = Position.Movement.Down)
+            move(direction = Position.Direction.Down)
         }
     }
 
     fun moveUp(stepsCount: Int = 1) {
         repeat(stepsCount) {
-            move(movement = Position.Movement.Up)
+            move(direction = Position.Direction.Up)
         }
     }
 
-    fun move(movement: Position.Movement) {
-        updateState(state = currentState.move(movement, source = this))
+    fun move(direction: Position.Direction) {
+        updateState(state = currentState.move(direction, source = this))
+    }
+
+    fun setBeforeMove(beforeMove: () -> Unit) {
+        updateState(state = currentState.withBeforeMove(beforeMove))
     }
 
     fun updateState(state: RobotState) {
