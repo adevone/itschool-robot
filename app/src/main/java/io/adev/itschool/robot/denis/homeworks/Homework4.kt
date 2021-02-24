@@ -13,7 +13,6 @@ fun homeworkDenis4Turtule() {
     body(robotToken = token)
     neck()
     head()
-
 }
 
 fun backLeg() {
