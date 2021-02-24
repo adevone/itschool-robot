@@ -14,32 +14,6 @@ fun homeworkDenis4Turtule() {
     neck()
     head()
 
-
-
-//    // задняя нога
-//    moveUp()
-//    moveUp()
-//    displayCurrentCode()
-//    moveUp()
-//    moveLeft(5)
-//    // тело
-//    moveUp(2)
-//    moveLeft(13)
-//    authorize(token)
-//    moveLeft(2)
-//    moveDown(2)
-//    moveLeft(1)
-//    authorize(token)
-//    moveLeft()
-//    moveDown()
-//    // шея
-//    moveLeft(3)
-//    displayCurrentCode()
-//    // голова
-//    moveLeft()
-//    moveUp(5)
-//    moveRight()
-
 }
 
 fun backLeg() {
