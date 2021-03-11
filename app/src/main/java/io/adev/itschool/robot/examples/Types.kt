@@ -79,9 +79,11 @@ fun awakeAndFeed(animal: Animal) {
     }
 }
 
+abstract class FormOfLife
+
 // Определение абстрактного класса Animal
 // Доп.информация: абстрактный класс - частный случай абстрактного типа
-abstract class Animal {
+abstract class Animal : FormOfLife() {
 
     // Определение изменяемой переменной isAwaken, которая изначально содержит true
     var isAwaken = true
