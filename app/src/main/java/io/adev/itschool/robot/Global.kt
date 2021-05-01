@@ -1,9 +1,13 @@
 package io.adev.itschool.robot
 
-import io.adev.itschool.robot.eduard.homeworks.eduardHomework3
-import io.adev.itschool.robot.eduard.work.eduardAuth
+import io.adev.itschool.robot.global.moveRight
+import io.adev.itschool.robot.global.moveUp
+import io.adev.itschool.robot.global.setArena
+import io.adev.itschool.robot.levels.demoArena
 
 // определяем функцию выполнить
 fun run() {
-    eduardAuth()
+    setArena(demoArena)
+    moveRight()
+    moveUp()
 }
