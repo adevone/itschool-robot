@@ -49,7 +49,7 @@ ppr p  pp
 """.trim())
 
 @Suppress("SpellCheckingInspection")
-val homework1EdwardArena = parseArena("""
+val homework1Variant1Arena = parseArena("""
 pppppppppppppppppp
 ppppp        ppppp
 pppp         ppppp

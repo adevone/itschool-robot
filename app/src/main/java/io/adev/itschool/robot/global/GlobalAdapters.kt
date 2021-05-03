@@ -4,6 +4,7 @@ import io.adev.itschool.robot.common.arena.RobotController
 import io.adev.itschool.robot.common.arena.entity.arena.Arena
 import io.adev.itschool.robot.levels.arena1
 import io.adev.itschool.robot.levels.demoArena
+import io.adev.itschool.robot.levels.homework1Variant1Arena
 import io.adev.itschool.robot.platform.arena.ArenaHolder
 
 lateinit var globalRobotController: RobotController
@@ -19,6 +20,10 @@ fun setDemoArena() {
 
 fun setArena1() {
     setArena(arena1)
+}
+
+fun setHomework1Variant1Arena() {
+    setArena(homework1Variant1Arena)
 }
 
 /**
