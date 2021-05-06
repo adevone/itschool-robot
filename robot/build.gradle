@@ -39,7 +39,7 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    def summer_version = "1.0.0-beta6-perform-16"
+    def summer_version = "1.0.0-beta9"
     api("com.github.adevone.summer:summer-jvm:$summer_version")
     api("com.github.adevone.summer:summer-androidx:$summer_version")
 
