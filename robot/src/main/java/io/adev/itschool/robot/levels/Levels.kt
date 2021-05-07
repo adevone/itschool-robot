@@ -71,6 +71,19 @@ ppppppppppppppppppp
 """.trim())
 
 @Suppress("SpellCheckingInspection")
+val homework1Variant3Arena = parseArena("""
+pppppppppppppppppppppppppp
+prppppppp            ppppp
+p   ppp   ppppppppp    ppp
+ppp  p  pppppppppppptp   p
+pppp   ppppppppppppppppp p
+ppp  p  pppppppppppppp   p
+p   ppp   pppppppppp   ppp
+p ppppppp            ppppp
+pppppppppppppppppppppppppp
+""".trim())
+
+@Suppress("SpellCheckingInspection")
 val arena3 = parseArena("""
 ppppp
 pr *p
