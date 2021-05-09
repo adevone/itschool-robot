@@ -9,13 +9,13 @@ fun arena1() {
     head()
     rightHand()
 }
-fun leg() {
+private fun leg() {
     moveRight()
     moveUp()
     moveUp()
     moveUp()
 }
-fun leftHand() {
+private fun leftHand() {
     moveLeft()
     moveLeft()
     moveUp()
@@ -23,7 +23,7 @@ fun leftHand() {
     moveRight()
     moveRight()
 }
-fun head() {
+private fun head() {
     moveUp()
     moveUp()
     moveRight()
@@ -31,7 +31,7 @@ fun head() {
     moveDown()
     moveDown()
 }
-fun rightHand() {
+private fun rightHand() {
     moveRight()
     moveRight()
     moveDown()
