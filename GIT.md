@@ -7,6 +7,7 @@
 `git remote remove origin` - удаление удаленного репозитория.
 ## Управление ветками
 `git branch feature/galina_homework1` - создание ветки feature/galina_homework1  
+`git checkout feature/galina_homework1` - переключение на ветку feature/galina_homework1  
 `git branch -d feature/galina_homework1` - удаление ветки feature/galina_homework1  
 `git branch -i` - получение списка существующих веток и информации о том, какая из них текущая ветка.
 ## Фиксация изменений
