@@ -135,7 +135,8 @@ class ArenaFragment : BaseFragment(), ArenaView {
             is PasswordBlock -> {
                 blockView.setImageResource(R.drawable.password_texture)
                 val passwordView = TextView(requireContext())
-                passwordView.textSize = 32f
+                val heightInDp = heightInPx / resources.displayMetrics.density
+                passwordView.textSize = heightInDp * 0.4f
                 passwordView.setTextColor(Color.parseColor("#D50000"))
                 passwordView.typeface = Typeface.DEFAULT_BOLD
                 passwordView.layoutParams = FrameLayout.LayoutParams(
