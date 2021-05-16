@@ -7,12 +7,18 @@ fun homework2() {
     //вызываем setArena передавая homework2Variant1Arena в качестве arena
     //используем функцию setArena определяя параметр sarena как homework2Variant1Arena
     setArena(arena = homework2Variant1Arena)
+    //используем функцию eye
+    //вызываем функцию eye
     eye()
+    //используем функцию nose
+    //вызываем функцию nose
     nose()
+    //используем функцию jaw
+    //вызываем функцию jaw
     jaw()
 }
 
-//движемся по eye
+//определяем функцию eye
 fun eye() {
     //вызываем moveRight передавая 3 в качестве stepsCount
     //используем функцию moveRight определяя параметр stepsCount как 3
@@ -25,7 +31,7 @@ fun eye() {
     moveDown(stepsCount = 2)
 }
 
-//движемся по nose
+//определяем функцию nose
 fun nose() {
     //вызываем moveRight передавая 1 в качестве stepsCount
     //используем функцию moveRight определяя параметр stepsCount как 1
@@ -41,7 +47,7 @@ fun nose() {
     moveLeft()
 }
 
-//движемся по jaw
+//определяем функцию jaw
 fun jaw() {
     //вызываем moveDown передавая 3 в качестве stepsCount
     //используем функцию moveDown определяя параметр stepsCount как 3
