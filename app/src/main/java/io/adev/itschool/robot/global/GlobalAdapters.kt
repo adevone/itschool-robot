@@ -17,23 +17,23 @@ fun setArena(arena: Arena) {
 }
 
 fun setDemoArena() {
-    setArena(demoArena)
+    setArena(arena = demoArena)
 }
 
 fun setArena1() {
-    setArena(arena1)
+    setArena(arena = arena1)
 }
 
 fun setHomework1Variant1Arena() {
-    setArena(homework1Variant1Arena)
+    setArena(arena = homework1Variant1Arena)
 }
 
 fun setHomework1Variant2Arena() {
-    setArena(homework1Variant2Arena)
+    setArena(arena = homework1Variant2Arena)
 }
 
 fun setHomework1Variant3Arena() {
-    setArena(homework1Variant3Arena)
+    setArena(arena = homework1Variant3Arena)
 }
 
 /**
