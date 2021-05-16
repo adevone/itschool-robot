@@ -80,8 +80,8 @@ fun getKey(): String {
     return globalRobotController.getKey()
 }
 
-fun enterKey(key: String) {
-    globalRobotController.enterKey(key)
+fun useKey(key: String) {
+    globalRobotController.useKey(key)
 }
 
 fun isAuthLeft(): Boolean {

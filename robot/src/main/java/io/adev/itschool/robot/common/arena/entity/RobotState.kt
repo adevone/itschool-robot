@@ -44,7 +44,7 @@ data class RobotState(
             throw AlreadyHaveKeyException()
     }
 
-    fun enterKey(key: String): RobotState {
+    fun useKey(key: String): RobotState {
         return copy(nextStepKey = key)
     }
 
