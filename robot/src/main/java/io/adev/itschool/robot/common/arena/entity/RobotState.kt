@@ -6,8 +6,8 @@ data class RobotState(
     val position: Position,
     val text: String = "",
     val finishReason: String? = null,
-    val authorizedPosition: Position? = null,
-    val nextStepToken: String? = null,
+    val initKeyPosition: Position? = null,
+    val nextStepKey: String? = null,
     val currentToken: String? = null,
     val code: Int? = null,
     val beforeMove: () -> Unit = {},
@@ -27,8 +27,8 @@ data class RobotState(
     fun move(direction: Position.Direction, source: Source): RobotState {
         return copy(
             position = position.move(direction),
-            nextStepToken = null,
-            currentToken = nextStepToken,
+            nextStepKey = null,
+            currentToken = nextStepKey,
             source = source
         )
     }
@@ -37,26 +37,26 @@ data class RobotState(
         return copy(text = text)
     }
 
-    fun authenticate(): RobotState {
-        return if (authorizedPosition == null)
-            copy(authorizedPosition = position)
+    fun initKey(): RobotState {
+        return if (initKeyPosition == null)
+            copy(initKeyPosition = position)
         else
-            throw AlreadyHaveTokenException()
+            throw AlreadyHaveKeyException()
     }
 
-    fun authorize(token: String): RobotState {
-        return copy(nextStepToken = token)
+    fun enterKey(key: String): RobotState {
+        return copy(nextStepKey = key)
     }
 
     fun checkToken() {
-        val hash = authorizedPosition?.hash() ?: throw NotAuthenticatedException()
+        val hash = initKeyPosition?.hash() ?: throw KeyIsNotProducedException()
         if (currentToken != hash) {
-            throw NotAuthorizedException()
+            throw KeyIsNotEnteredException()
         }
     }
 
-    fun getToken(): String {
-        return authorizedPosition?.hash() ?: throw NotAuthenticatedException()
+    fun getKey(): String {
+        return initKeyPosition?.hash() ?: throw KeyIsNotProducedException()
     }
 
     fun withCode(code: Int): RobotState {
@@ -75,10 +75,10 @@ data class RobotState(
             7 -> "seven"
             8 -> "eight"
             9 -> "nine"
-            else -> throw WrongCodeException()
+            else -> throw WrongPasswordException()
         }
         if (text != codeString) {
-            throw WrongCodeException()
+            throw WrongPasswordException()
         }
     }
 
@@ -99,10 +99,10 @@ data class RobotState(
     }
 }
 
-class AlreadyHaveTokenException : IllegalStateException("You've already got token. Use it")
+class AlreadyHaveKeyException : IllegalStateException("You've already got key. Use it")
 
-class NotAuthenticatedException : IllegalStateException("Robot is not authenticated")
+class KeyIsNotProducedException : IllegalStateException("You need to produce the key")
 
-class NotAuthorizedException : IllegalStateException("Robot is not authorized")
+class KeyIsNotEnteredException : IllegalStateException("You need to enter the key")
 
-class WrongCodeException : IllegalStateException("Robot is displaying wrong code")
+class WrongPasswordException : IllegalStateException("Robot is displaying a wrong password")

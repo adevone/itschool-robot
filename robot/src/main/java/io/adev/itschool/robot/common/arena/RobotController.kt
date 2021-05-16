@@ -22,13 +22,13 @@ class RobotController(
 
     private lateinit var currentState: RobotState
 
-    fun authenticate(): String {
-        updateState(currentState.authenticate())
-        return currentState.getToken()
+    fun getKey(): String {
+        updateState(currentState.initKey())
+        return currentState.getKey()
     }
 
-    fun authorize(token: String) {
-        updateState(currentState.authorize(token))
+    fun enterKey(key: String) {
+        updateState(currentState.enterKey(key))
     }
 
     fun isAuthLeft(arena: Arena): Boolean {

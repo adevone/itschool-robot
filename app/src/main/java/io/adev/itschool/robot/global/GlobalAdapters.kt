@@ -76,12 +76,12 @@ fun display(password: String) {
     globalRobotController.display(password)
 }
 
-fun authenticate(): String {
-    return globalRobotController.authenticate()
+fun getKey(): String {
+    return globalRobotController.getKey()
 }
 
-fun authorize(token: String) {
-    globalRobotController.authorize(token)
+fun enterKey(key: String) {
+    globalRobotController.enterKey(key)
 }
 
 fun isAuthLeft(): Boolean {
