@@ -14,8 +14,7 @@ fun homework1Variant3() {
 
 private fun tail() {
     moveDown()
-    moveRight()
-    moveRight()
+    moveRight(stepsCount = 2)
     moveDown()
     moveRight()
     moveDown()
@@ -27,18 +26,10 @@ private fun back() {
     moveUp()
     moveRight()
     moveUp()
-    moveRight()
-    moveRight()
+    moveRight(stepsCount = 2)
     moveUp()
-    moveRight()
-    moveRight()
-    moveRight()
-    moveRight()
-    moveRight()
-    moveRight()
-    moveRight()
-    moveRight()
-    moveRight()
+    moveRight(stepsCount = 9)
+
 }
 
 private fun head() {
