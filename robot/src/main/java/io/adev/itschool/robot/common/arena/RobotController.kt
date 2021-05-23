@@ -27,8 +27,8 @@ class RobotController(
         return currentState.getKey()
     }
 
-    fun enterKey(key: String) {
-        updateState(currentState.enterKey(key))
+    fun useKey(key: String) {
+        updateState(currentState.useKey(key))
     }
 
     fun isAuthLeft(arena: Arena): Boolean {
