@@ -21,7 +21,8 @@ fun secondFloor() {
     }
 
 fun groundFloor(robotKey: String) {
-    enterKey(key = robotKey)
+
+    useKey(key = robotKey)
     //вызываем  moveDown передавая 2 в качестве stepsCount
     //используем функцию  moveDown определяя параметр stepsCount как 2
     moveDown(stepsCount = 2)
@@ -43,7 +44,7 @@ fun groundFloor(robotKey: String) {
 }
 
 fun basement(robotKey: String) {
-    enterKey(key = robotKey)
+    useKey(key = robotKey)
     //вызываем  moveDown передавая 2 в качестве stepsCount
     //используем функцию  moveDown определяя параметр stepsCount как 2
     moveDown(stepsCount = 2)
@@ -56,7 +57,7 @@ fun basement(robotKey: String) {
     //вызываем moveRight передавая 2 в качестве stepsCount
     //используем функцию moveRight определяя параметр stepsCount как 2
     moveRight(stepsCount = 2)
-    enterKey(key = robotKey)
+    useKey(key = robotKey)
     //вызываем moveRight передавая 4 в качестве stepsCount
     //используем функцию moveRight определяя параметр stepsCount как 4
     moveRight(stepsCount = 4)
