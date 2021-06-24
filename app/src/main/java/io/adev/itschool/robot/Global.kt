@@ -7,8 +7,9 @@ import io.adev.itschool.robot.global.moveRight
 import io.adev.itschool.robot.global.moveUp
 import io.adev.itschool.robot.global.setArena
 import io.adev.itschool.robot.levels.demoArena
+import io.adev.itschool.robot.rusha.rushaHomework6
 
 // определяем функцию выполнить
 fun run() {
-    passArena6()
+    rushaHomework6()
 }
