@@ -2,38 +2,32 @@ package io.adev.itschool.robot.galina
 
 import io.adev.itschool.robot.global.*
 
-fun arena1() {
+fun galinaArena1() {
     setArena1()
-    leg()
-    leftHand()
+    legRight()
+    handRight()
     head()
-    rightHand()
+    handLeft()
 }
-private fun leg() {
+
+private fun legRight() {
     moveRight()
-    moveUp()
-    moveUp()
-    moveUp()
+    moveUp(stepsCount = 3)
 }
-private fun leftHand() {
-    moveLeft()
-    moveLeft()
-    moveUp()
-    moveUp()
-    moveRight()
-    moveRight()
+
+private fun handRight() {
+    moveLeft(stepsCount = 2)
+    moveUp(stepsCount = 2)
+    moveRight(stepsCount = 2)
 }
+
 private fun head() {
-    moveUp()
-    moveUp()
-    moveRight()
-    moveRight()
-    moveDown()
-    moveDown()
+    moveUp(stepsCount = 2)
+    moveRight(stepsCount = 2)
+    moveDown(stepsCount = 2)
 }
-private fun rightHand() {
-    moveRight()
-    moveRight()
-    moveDown()
-    moveDown()
+
+private fun handLeft() {
+    moveRight(stepsCount = 2)
+    moveDown(stepsCount = 2)
 }
