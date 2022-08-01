@@ -1,15 +1,15 @@
 package io.adev.itschool.robot.maxim
 
+import io.adev.itschool.robot.global.moveDown
 import io.adev.itschool.robot.global.moveRight
 import io.adev.itschool.robot.global.moveUp
-import io.adev.itschool.robot.global.setArena
-import io.adev.itschool.robot.levels.arena3
+import io.adev.itschool.robot.global.setHomework1Variant1Arena
 
-fun passArena3() {
-    setArena(arena = arena3)
+fun passHomework1() {
+    setHomework1Variant1Arena()
     passLeftWheel()
     passCarBody()
-    passRightWhell()
+    passRightWheel()
 
 }
 
@@ -30,10 +30,11 @@ private fun passCarBody() {
     moveRight()
     moveRight()
     moveRight()
+    moveDown()
+
 }
 
-private fun passRightWhell() {
-    moveDown()
+private fun passRightWheel() {
     moveDown()
     moveDown()
 }

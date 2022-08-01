@@ -1,9 +1,9 @@
 package io.adev.itschool.robot
 
-import io.adev.itschool.robot.global.setHomework1Variant1Arena
+import io.adev.itschool.robot.maxim.passHomework1
 
 // определяем функцию выполнить
 fun run() {
-    setHomework1Variant1Arena()
+    passHomework1()
 }
 
