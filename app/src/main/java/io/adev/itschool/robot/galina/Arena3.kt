@@ -10,5 +10,5 @@ fun galinaArena3() {
     setArena(arena = arena3)
     display(password = "p31")
     moveRight(stepsCount = 2)
-    moveRight()
+    moveDown()
 }
