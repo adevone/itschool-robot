@@ -10,7 +10,6 @@ fun passHomework1() {
     passLeftWheel()
     passCarBody()
     passRightWheel()
-
 }
 
 private fun passLeftWheel() {
