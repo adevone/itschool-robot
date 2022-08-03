@@ -16,7 +16,8 @@ fun passArena2() {
 
 private fun eye() {
     moveRight(stepsCount = 3)
-    display(password = "p710")
+    val p = "p710"
+    display(password = p)
     moveDown(stepsCount = 2)
 }
 
