@@ -1,6 +1,5 @@
 package io.adev.itschool.robot.maxim
 
-import io.adev.itschool.robot.galina.nose
 import io.adev.itschool.robot.global.display
 import io.adev.itschool.robot.global.moveDown
 import io.adev.itschool.robot.global.moveLeft
@@ -27,6 +26,7 @@ private fun nose() {
     display(password = "p713")
     moveLeft()
 }
+
 private fun jaw() {
     moveDown(3)
     moveLeft(2)
