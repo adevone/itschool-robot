@@ -12,25 +12,26 @@ fun passHomework3(){
 }
 
 fun paw(robotKey: String){
-
-    useKey(key = robotKey)
     moveRight(stepsCount = 3)
+    useKey(key = robotKey)
     moveUp()
 }
 
 fun stomach(robotKey: String){
-
-    useKey(key = robotKey)
     moveRight(stepsCount = 2)
     moveDown()
     moveRight(stepsCount = 5)
     moveUp(stepsCount = 2)
+    useKey(key = robotKey)
     moveRight()
 }
 
 fun head(robotKey: String){
-    
+    moveRight(stepsCount = 3)
     useKey(key = robotKey)
-    moveRight(stepsCount = 12)
+    moveRight(stepsCount = 6)
+    useKey(key = robotKey)
+    moveRight(stepsCount = 3)
+    useKey(key = robotKey)
     moveDown(stepsCount = 2)
 }

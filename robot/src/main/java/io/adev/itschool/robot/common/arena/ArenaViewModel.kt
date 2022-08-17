@@ -3,7 +3,6 @@ package io.adev.itschool.robot.common.arena
 import io.adev.itschool.robot.common.BaseViewModel
 import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.arena.Arena
-import io.adev.itschool.robot.platform.arena.ArenaHolder
 import kotlinx.coroutines.launch
 
 interface ArenaView {
@@ -13,8 +12,8 @@ interface ArenaView {
 }
 
 class ArenaViewModel(
-    private val userAction: UserAction,
-    private val executor: RobotExecutor,
+    createRobotController: CreateRobotController,
+    executor: RobotExecutor,
     private val statesApplier: RobotStatesApplier,
 ) : BaseViewModel<ArenaView>() {
 
@@ -24,16 +23,6 @@ class ArenaViewModel(
         override val displayWon = event { it.displayWon }.perform.exactlyOnce()
     }
 
-    private val arenaSetter = ArenaHolder(
-        onSet = { arena ->
-            launch {
-                viewProxy.arena = arena
-            }
-            robot.stateMutationsProvider = arena
-            robot.updateState(arena.initialRobotState)
-        }
-    )
-
     private val statesApplierCallback: RobotStatesApplier.Callback =
         object : RobotStatesApplier.Callback {
 
@@ -42,19 +31,26 @@ class ArenaViewModel(
             }
 
             override fun onStateApplied(state: RobotState) {
-                robot.onStateApplied(state)
+                robotController.onStateApplied(state)
             }
         }
 
-    private val robot = RobotController(
-        applyStates = { states ->
+    private val robotController: RobotController = createRobotController()
+
+    init {
+        robotController.onArenaSet = { arena ->
+            launch {
+                viewProxy.arena = arena
+            }
+        }
+        robotController.applyStates = { states ->
             statesApplier.applyStates(states, statesApplierCallback, useCallback = { action ->
                 launch {
                     action()
                 }
             })
         }
-    )
+    }
 
     private val executorCallback = object : RobotExecutor.Callback {
 
@@ -68,7 +64,7 @@ class ArenaViewModel(
     }
 
     init {
-        executor.execute(robot, arenaSetter, userAction, executorCallback, useCallback = { action ->
+        executor.execute(robotController, executorCallback, useCallback = { action ->
             launch {
                 action()
             }

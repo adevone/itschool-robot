@@ -4,25 +4,26 @@ import android.os.ConditionVariable
 import io.adev.itschool.robot.common.arena.RobotController
 import io.adev.itschool.robot.common.arena.RobotExecutor
 import io.adev.itschool.robot.common.arena.RobotStatesApplier
-import io.adev.itschool.robot.common.arena.UserAction
+import io.adev.itschool.robot.common.arena.entity.RobotException
 import io.adev.itschool.robot.common.arena.entity.RobotState
 
 class AndroidRobotExecutor : RobotExecutor {
 
     override fun execute(
-        robotController: RobotController, arenaHolder: ArenaHolder, userAction: UserAction,
-        callback: RobotExecutor.Callback, useCallback: (() -> Unit) -> Unit,
+        robotController: RobotController,
+        callback: RobotExecutor.Callback,
+        useCallback: (() -> Unit) -> Unit
     ) {
         Thread {
             try {
                 try {
-                    userAction(robotController, arenaHolder)
+                    robotController.run()
                     robotController.requireWon()
                     useCallback {
                         callback.onWon()
                     }
                 } catch (e: Exception) {
-                    robotController.finish(e.message)
+                    robotController.finish(RobotException(e))
                     throw e
                 }
             } catch (e: Exception) {

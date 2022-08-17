@@ -53,7 +53,7 @@ class PasswordBlock(position: Position) : Block(position) {
 
     override fun beforeRobotMove(robotState: RobotState): RobotState? {
         return if (robotState.position == position && robotState.text != password)
-            robotState.destroyed(source = this)
+            robotState.destroyed().withSource(source = this)
         else
             null
     }
@@ -87,7 +87,7 @@ class PlatformBlock(position: Position) : Block(position) {
 
     override fun beforeRobotMove(robotState: RobotState): RobotState? {
         return if (robotState.position == position)
-            robotState.destroyed(source = this)
+            robotState.destroyed().withSource(source = this)
         else
             null
     }
@@ -97,7 +97,7 @@ class TargetBlock(position: Position) : Block(position) {
 
     override fun afterRobotMove(robotState: RobotState): RobotState? {
         return if (robotState.position == position) {
-            robotState.won(source = this)
+            robotState.won().withSource(source = this)
         } else {
             null
         }

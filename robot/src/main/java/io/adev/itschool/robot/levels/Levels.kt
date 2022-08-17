@@ -1,8 +1,11 @@
+@file:Suppress("SpellCheckingInspection")
+
 package io.adev.itschool.robot.levels
 
 import io.adev.itschool.robot.common.arena.entity.arena.parseArena
 
-@Suppress("SpellCheckingInspection")
+// @formatter:off
+
 val demoArena = parseArena("""
 ppppp
 pr  p
@@ -10,7 +13,6 @@ ppptp
 ppppp
 """.trim())
 
-@Suppress("SpellCheckingInspection")
 val arena1 = parseArena("""
 ppppppppp
 ppp   ppp
@@ -23,7 +25,6 @@ ppp p ppp
 ppr p  pp
 """.trim())
 
-@Suppress("SpellCheckingInspection")
 val arena2 = parseArena("""
 pppppppppp
 r        p
@@ -35,7 +36,6 @@ pp       p
 pppppppppp
 """.trim())
 
-@Suppress("SpellCheckingInspection")
 val homework1DenisArena = parseArena("""
 ppppppppp
 ppp   ppp
@@ -48,7 +48,6 @@ ppp p ppp
 ppr p  pp
 """.trim())
 
-@Suppress("SpellCheckingInspection")
 val homework1Variant1Arena = parseArena("""
 pppppppppppppppppp
 ppppp        ppppp
@@ -58,7 +57,6 @@ p    p     p  pppp
 ppr ppppppp tppppp
 """.trim())
 
-@Suppress("SpellCheckingInspection")
 val homework1Variant2Arena = parseArena("""
 ppppppppppppppppppp
 ppp     pppp  pp tp
@@ -70,7 +68,6 @@ ppp rp  pppp  pp  p
 ppppppppppppppppppp
 """.trim())
 
-@Suppress("SpellCheckingInspection")
 val homework1Variant3Arena = parseArena("""
 pppppppppppppppppppppppppp
 prppppppp            ppppp
@@ -83,7 +80,6 @@ p ppppppp            ppppp
 pppppppppppppppppppppppppp
 """.trim())
 
-@Suppress("SpellCheckingInspection")
 val arena3 = parseArena("""
 ppppp
 pr *p
@@ -91,7 +87,6 @@ ppptp
 ppppp
 """.trim())
 
-@Suppress("SpellCheckingInspection")
 val homework2Variant1Arena = parseArena("""
 pppppppppppppppppp
 pppppp      pppppp
@@ -112,7 +107,6 @@ pppppt       ppppp
 pppppppppppppppppp
 """.trim())
 
-@Suppress("SpellCheckingInspection")
 val arena4 = parseArena("""
 pppppppppp
 r        p
@@ -124,7 +118,6 @@ pp   *   p
 pppppppppp
 """.trim())
 
-@Suppress("SpellCheckingInspection")
 val arena5 = parseArena("""
 ppppp
 pr #p
@@ -132,7 +125,6 @@ ppptp
 ppppp
 """.trim())
 
-@Suppress("SpellCheckingInspection")
 val arena6 = parseArena("""
 pppppppppp
 r        p

@@ -1,11 +1,9 @@
 package io.adev.itschool.robot.common.arena.entity
 
-import io.adev.itschool.robot.common.arena.entity.arena.TargetBlock
-
 data class RobotState(
     val position: Position,
     val text: String = "",
-    val finishReason: String? = null,
+    val finishReason: RobotException? = null,
     val initKeyPosition: Position? = null,
     val nextStepKey: String? = null,
     val currentToken: String? = null,
@@ -16,35 +14,34 @@ data class RobotState(
 ) {
     val size = Size.Virtual(width = 1.vp, height = 1.vp)
 
-    fun destroyed(source: Source): RobotState {
-        return copy(finishReason = "Robot is destroyed", source = source)
+    fun destroyed(): RobotState {
+        return copy(finishReason = RobotException("Robot is destroyed"))
     }
 
-    fun won(source: TargetBlock): RobotState {
-        return copy(isWon = true, source = source)
+    fun won(): RobotState {
+        return copy(isWon = true)
     }
 
-    fun move(direction: Position.Direction, source: Source): RobotState {
+    fun moved(direction: Position.Direction): RobotState {
         return copy(
             position = position.move(direction),
             nextStepKey = null,
             currentToken = nextStepKey,
-            source = source
         )
     }
 
-    fun display(text: String): RobotState {
+    fun displaying(text: String): RobotState {
         return copy(text = text)
     }
 
-    fun initKey(): RobotState {
+    fun withInitKey(): RobotState {
         return if (initKeyPosition == null)
             copy(initKeyPosition = position)
         else
             throw AlreadyHaveKeyException()
     }
 
-    fun useKey(key: String): RobotState {
+    fun withKey(key: String): RobotState {
         return copy(nextStepKey = key)
     }
 
@@ -86,8 +83,12 @@ data class RobotState(
         return copy(beforeMove = beforeMove)
     }
 
-    fun finish(reason: String?): RobotState {
+    fun finished(reason: RobotException?): RobotState {
         return copy(finishReason = reason)
+    }
+
+    fun withSource(source: Source): RobotState {
+        return copy(source = source)
     }
 
     override fun toString(): String {
@@ -96,6 +97,19 @@ data class RobotState(
 
     interface Source {
         fun sourceRepresentation(): String
+    }
+}
+
+class RobotException : RuntimeException {
+    constructor(message: String?) : super(message)
+    constructor(cause: Throwable?) : super(cause)
+
+    override fun equals(other: Any?): Boolean {
+        return other is RobotException && message == other.message
+    }
+
+    override fun hashCode(): Int {
+        return message?.hashCode() ?: 0
     }
 }
 

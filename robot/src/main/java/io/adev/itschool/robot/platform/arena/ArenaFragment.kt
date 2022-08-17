@@ -16,7 +16,7 @@ import androidx.core.view.updateLayoutParams
 import io.adev.itschool.robot.R
 import io.adev.itschool.robot.common.arena.ArenaView
 import io.adev.itschool.robot.common.arena.ArenaViewModel
-import io.adev.itschool.robot.common.arena.UserAction
+import io.adev.itschool.robot.common.arena.CreateRobotController
 import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.Size
 import io.adev.itschool.robot.common.arena.entity.arena.Arena
@@ -39,7 +39,9 @@ class ArenaFragment : BaseFragment(), ArenaView {
 
     override val viewModel by bindViewModel {
         ArenaViewModel(
-            userAction = requireNotNull(userAction) { "userAction must not be null" },
+            createRobotController = requireNotNull(createRobotController) {
+                "userAction must not be null"
+            },
             executor = AndroidRobotExecutor(),
             statesApplier = AndroidRobotStatesApplier()
         )
@@ -123,7 +125,8 @@ class ArenaFragment : BaseFragment(), ArenaView {
         container.addView(blockView)
         when (block) {
             is PlatformBlock -> {
-                container.foreground = ContextCompat.getDrawable(requireContext(), R.drawable.block_corner)
+                container.foreground =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.block_corner)
                 blockView.setImageResource(R.drawable.stone_texture)
             }
             is TargetBlock -> {
@@ -193,7 +196,11 @@ class ArenaFragment : BaseFragment(), ArenaView {
         robotBinding.textView.text = text
     }
 
-    private fun moveRobot(robotBinding: RobotViewBinding, robotState: RobotState, pointSize: Float) {
+    private fun moveRobot(
+        robotBinding: RobotViewBinding,
+        robotState: RobotState,
+        pointSize: Float
+    ) {
         val newX = robotState.position.x.render(pointSize)
         val newY = robotState.position.y.render(pointSize)
         if (isRobotInit) {
@@ -227,11 +234,11 @@ class ArenaFragment : BaseFragment(), ArenaView {
 
     companion object {
 
-        fun newInstance(userAction: UserAction): ArenaFragment {
-            this.userAction = userAction
+        fun newInstance(createRobotController: CreateRobotController): ArenaFragment {
+            this.createRobotController = createRobotController
             return ArenaFragment()
         }
 
-        private var userAction: UserAction? = null
+        private var createRobotController: CreateRobotController? = null
     }
 }

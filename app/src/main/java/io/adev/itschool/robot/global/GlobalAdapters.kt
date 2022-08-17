@@ -7,13 +7,11 @@ import io.adev.itschool.robot.levels.demoArena
 import io.adev.itschool.robot.levels.homework1Variant1Arena
 import io.adev.itschool.robot.levels.homework1Variant2Arena
 import io.adev.itschool.robot.levels.homework1Variant3Arena
-import io.adev.itschool.robot.platform.arena.ArenaHolder
 
 lateinit var globalRobotController: RobotController
-lateinit var globalArenaHolder: ArenaHolder
 
 fun setArena(arena: Arena) {
-    globalArenaHolder.arena = arena
+    globalRobotController.setArena(arena)
 }
 
 fun setDemoArena() {
@@ -85,23 +83,23 @@ fun useKey(key: String) {
 }
 
 fun isAuthLeft(): Boolean {
-    return globalRobotController.isAuthLeft(arena = globalArenaHolder.arena!!)
+    return globalRobotController.isAuthLeft()
 }
 
 fun isAuthRight(): Boolean {
-    return globalRobotController.isAuthRight(arena = globalArenaHolder.arena!!)
+    return globalRobotController.isAuthRight()
 }
 
 fun isAuthUp(): Boolean {
-    return globalRobotController.isAuthUp(arena = globalArenaHolder.arena!!)
+    return globalRobotController.isAuthUp()
 }
 
 fun isAuthDown(): Boolean {
-    return globalRobotController.isAuthDown(arena = globalArenaHolder.arena!!)
+    return globalRobotController.isAuthDown()
 }
 
 fun currentCode(): Int {
-    return globalRobotController.currentCode(arena = globalArenaHolder.arena!!)
+    return globalRobotController.currentCode()
 }
 
 fun setBeforeMove(beforeMove: () -> Unit) {

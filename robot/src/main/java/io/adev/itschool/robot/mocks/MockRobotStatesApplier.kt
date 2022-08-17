@@ -7,7 +7,8 @@ class MockRobotStatesApplier : RobotStatesApplier {
 
     override fun applyStates(
         states: List<RobotState>,
-        callback: RobotStatesApplier.Callback, useCallback: (() -> Unit) -> Unit
+        callback: RobotStatesApplier.Callback,
+        useCallback: (() -> Unit) -> Unit
     ) {
         states.forEach { state ->
             callback.moveRobot(state)

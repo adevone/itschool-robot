@@ -1,18 +1,26 @@
 package io.adev.itschool.robot.common.arena
 
 import io.adev.itschool.robot.common.arena.entity.Position
+import io.adev.itschool.robot.common.arena.entity.RobotException
 import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.arena.Arena
 import io.adev.itschool.robot.common.arena.entity.arena.AuthBlock
 import io.adev.itschool.robot.common.arena.entity.arena.CodeBlock
-import io.adev.itschool.robot.common.arena.entity.arena.RobotStateMutationsProvider
-import io.adev.itschool.robot.platform.arena.ArenaHolder
 
-class RobotController(
-    private val applyStates: (List<RobotState>) -> Unit,
-) : RobotState.Source {
+abstract class RobotController : RobotState.Source {
+    var onArenaSet: (Arena) -> Unit = {}
+    lateinit var applyStates: (List<RobotState>) -> Unit
+    private lateinit var arena: Arena
 
-    lateinit var stateMutationsProvider: RobotStateMutationsProvider
+    fun setArena(arena: Arena) {
+        this.arena = arena
+        onArenaSet(arena)
+        updateState(arena.initialRobotState)
+    }
+
+    private lateinit var currentState: RobotState
+
+    abstract fun run()
 
     fun requireWon() {
         if (!currentState.isWon) {
@@ -20,46 +28,44 @@ class RobotController(
         }
     }
 
-    private lateinit var currentState: RobotState
-
     fun getKey(): String {
-        updateState(currentState.initKey())
+        updateState(currentState.withInitKey())
         return currentState.getKey()
     }
 
     fun useKey(key: String) {
-        updateState(currentState.useKey(key))
+        updateState(currentState.withKey(key))
     }
 
-    fun isAuthLeft(arena: Arena): Boolean {
-        return isAuth(arena, direction = Position.Direction.Left)
+    fun isAuthLeft(): Boolean {
+        return isAuth(direction = Position.Direction.Left)
     }
 
-    fun isAuthRight(arena: Arena): Boolean {
-        return isAuth(arena, direction = Position.Direction.Right)
+    fun isAuthRight(): Boolean {
+        return isAuth(direction = Position.Direction.Right)
     }
 
-    fun isAuthUp(arena: Arena): Boolean {
-        return isAuth(arena, direction = Position.Direction.Up)
+    fun isAuthUp(): Boolean {
+        return isAuth(direction = Position.Direction.Up)
     }
 
-    fun isAuthDown(arena: Arena): Boolean {
-        return isAuth(arena, direction = Position.Direction.Down)
+    fun isAuthDown(): Boolean {
+        return isAuth(direction = Position.Direction.Down)
     }
 
-    private fun isAuth(arena: Arena, direction: Position.Direction): Boolean {
+    private fun isAuth(direction: Position.Direction): Boolean {
         val rightPosition = currentState.position.move(direction)
         return arena.blockOn(rightPosition) is AuthBlock
     }
 
-    fun currentCode(arena: Arena): Int {
+    fun currentCode(): Int {
         val codeBlock = arena.blockOn(currentState.position) as? CodeBlock
             ?: throw IllegalStateException("robot is not on CodeBlock now")
         return codeBlock.code
     }
 
     fun display(password: String) {
-        updateState(state = currentState.display(password))
+        updateState(state = currentState.displaying(password))
     }
 
     fun moveRight(stepsCount: Int = 1) {
@@ -87,7 +93,7 @@ class RobotController(
     }
 
     fun move(direction: Position.Direction) {
-        updateState(state = currentState.move(direction, source = this))
+        updateState(state = currentState.moved(direction).withSource(source = this))
     }
 
     fun setBeforeMove(beforeMove: () -> Unit) {
@@ -99,15 +105,15 @@ class RobotController(
         applyStates(statesList)
     }
 
-    fun finish(reason: String?) {
-        updateState(currentState.finish(reason))
+    fun finish(reason: RobotException?) {
+        updateState(currentState.finished(reason))
     }
 
     private fun makeStatesList(state: RobotState): List<RobotState> {
 
         val list = mutableListOf<RobotState>()
 
-        val beforeState = stateMutationsProvider.beforeRobotMove(robotState = state).takeIf { it != state }
+        val beforeState = arena.beforeRobotMove(robotState = state).takeIf { it != state }
         if (beforeState != null) {
             val beforeStates = makeStatesList(beforeState)
             list.addAll(beforeStates)
@@ -115,7 +121,7 @@ class RobotController(
 
         list.add(state)
 
-        val afterState = stateMutationsProvider.afterRobotMove(robotState = state).takeIf { it != state }
+        val afterState = arena.afterRobotMove(robotState = state).takeIf { it != state }
         if (afterState != null) {
             val afterStates = makeStatesList(afterState)
             list.addAll(afterStates)
@@ -141,8 +147,9 @@ class RobotController(
 interface RobotExecutor {
 
     fun execute(
-        robotController: RobotController, arenaHolder: ArenaHolder, userAction: UserAction,
-        callback: Callback, useCallback: (() -> Unit) -> Unit,
+        robotController: RobotController,
+        callback: Callback,
+        useCallback: (() -> Unit) -> Unit,
     )
 
     interface Callback {
@@ -151,13 +158,14 @@ interface RobotExecutor {
     }
 }
 
-typealias UserAction = (RobotController, ArenaHolder) -> Unit
+typealias CreateRobotController = () -> RobotController
 
 interface RobotStatesApplier {
 
     fun applyStates(
         states: List<RobotState>,
-        callback: Callback, useCallback: (() -> Unit) -> Unit,
+        callback: Callback,
+        useCallback: (() -> Unit) -> Unit,
     )
 
     fun robotMoved()
@@ -169,12 +177,10 @@ interface RobotStatesApplier {
 }
 
 class FinishedException(
-    message: String,
+    cause: Throwable?,
     state: RobotState,
     stateHistory: List<RobotState>,
-) : IllegalStateException(
-    "$message, state=$state, history:\n${formatHistory(stateHistory)}"
-)
+) : IllegalStateException("state=$state, history:\n${formatHistory(stateHistory)}", cause)
 
 class NotCompleteException(
     state: RobotState,

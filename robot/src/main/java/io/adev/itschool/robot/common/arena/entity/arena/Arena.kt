@@ -42,7 +42,7 @@ data class Arena(
 
     override fun beforeRobotMove(robotState: RobotState): RobotState? {
         if (!robotState.position.isIn(size)) {
-            return robotState.destroyed(source = this)
+            return robotState.destroyed().withSource(source = this)
         } else {
             blocks.forEach { block ->
                 val newState = block.beforeRobotMove(robotState)
