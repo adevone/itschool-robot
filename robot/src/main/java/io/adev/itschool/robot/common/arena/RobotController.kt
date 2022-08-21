@@ -4,15 +4,14 @@ import io.adev.itschool.robot.common.arena.entity.Position
 import io.adev.itschool.robot.common.arena.entity.RobotException
 import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.arena.Arena
-import io.adev.itschool.robot.common.arena.entity.arena.AuthBlock
-import io.adev.itschool.robot.common.arena.entity.arena.CodeBlock
+import io.adev.itschool.robot.common.arena.entity.arena.RandomCodeBlock
 
 abstract class RobotController : RobotState.Source {
     var onArenaSet: (Arena) -> Unit = {}
     lateinit var applyStates: (List<RobotState>) -> Unit
-    private lateinit var arena: Arena
+    lateinit var arena: Arena
 
-    fun setArena(arena: Arena) {
+    fun updateArena(arena: Arena) {
         this.arena = arena
         onArenaSet(arena)
         updateState(arena.initialRobotState)
@@ -53,46 +52,46 @@ abstract class RobotController : RobotState.Source {
         return isAuth(direction = Position.Direction.Down)
     }
 
-    private fun isAuth(direction: Position.Direction): Boolean {
-        val rightPosition = currentState.position.move(direction)
-        return arena.blockOn(rightPosition) is AuthBlock
+    fun isAuth(direction: Position.Direction): Boolean {
+        val nextPosition = currentState.position.moved(direction)
+        return arena.blockOn(nextPosition)?.requiresKey == true
     }
 
     fun currentCode(): Int {
-        val codeBlock = arena.blockOn(currentState.position) as? CodeBlock
-            ?: throw IllegalStateException("robot is not on CodeBlock now")
-        return codeBlock.code
+        val block = arena.blockOn(currentState.position)
+        require(block is RandomCodeBlock) { "Robot is not on a CodeBlock now" }
+        return block.randomCode
     }
 
-    fun display(password: String) {
+    open fun display(password: String) {
         updateState(state = currentState.displaying(password))
     }
 
-    fun moveRight(stepsCount: Int = 1) {
+    open fun moveRight(stepsCount: Int = 1) {
         repeat(stepsCount) {
             move(direction = Position.Direction.Right)
         }
     }
 
-    fun moveLeft(stepsCount: Int = 1) {
+    open fun moveLeft(stepsCount: Int = 1) {
         repeat(stepsCount) {
             move(direction = Position.Direction.Left)
         }
     }
 
-    fun moveDown(stepsCount: Int = 1) {
+    open fun moveDown(stepsCount: Int = 1) {
         repeat(stepsCount) {
             move(direction = Position.Direction.Down)
         }
     }
 
-    fun moveUp(stepsCount: Int = 1) {
+    open fun moveUp(stepsCount: Int = 1) {
         repeat(stepsCount) {
             move(direction = Position.Direction.Up)
         }
     }
 
-    fun move(direction: Position.Direction) {
+    open fun move(direction: Position.Direction) {
         updateState(state = currentState.moved(direction).withSource(source = this))
     }
 
@@ -105,7 +104,7 @@ abstract class RobotController : RobotState.Source {
         applyStates(statesList)
     }
 
-    fun finish(reason: RobotException?) {
+    open fun finish(reason: RobotException?) {
         updateState(currentState.finished(reason))
     }
 

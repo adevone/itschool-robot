@@ -224,3 +224,15 @@ pp     vp p  #                   pp
                 pp pp     pp   pp
                pppppp    ppp  ppp
 """.trimIndent())
+
+val arena8 = parseArena("""
+ppppppppp
+ppp%%%ppp
+ppp%p%ppp
+p%%%p%%%p
+p%ppppp%p
+p%%%  ptp
+ppp%p ppp
+ppp%p ppp
+ppr%p  pp
+""".trim())

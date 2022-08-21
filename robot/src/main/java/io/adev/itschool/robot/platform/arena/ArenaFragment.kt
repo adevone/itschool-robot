@@ -20,14 +20,8 @@ import io.adev.itschool.robot.common.arena.CreateRobotController
 import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.Size
 import io.adev.itschool.robot.common.arena.entity.arena.Arena
-import io.adev.itschool.robot.common.arena.entity.arena.AuthBlock
+import io.adev.itschool.robot.common.arena.entity.arena.Asset
 import io.adev.itschool.robot.common.arena.entity.arena.Block
-import io.adev.itschool.robot.common.arena.entity.arena.CodeBlock
-import io.adev.itschool.robot.common.arena.entity.arena.PasswordBlock
-import io.adev.itschool.robot.common.arena.entity.arena.PlatformBlock
-import io.adev.itschool.robot.common.arena.entity.arena.TargetBlock
-import io.adev.itschool.robot.common.arena.entity.arena.VerifyCodeBlock
-import io.adev.itschool.robot.common.arena.entity.arena.VoidBlock
 import io.adev.itschool.robot.common.arena.entity.rp
 import io.adev.itschool.robot.databinding.ArenaFragmentBinding
 import io.adev.itschool.robot.databinding.RobotViewBinding
@@ -123,57 +117,54 @@ class ArenaFragment : BaseFragment(), ArenaView {
         )
         blockView.scaleType = ImageView.ScaleType.FIT_XY
         container.addView(blockView)
-        when (block) {
-            is PlatformBlock -> {
-                container.foreground =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.block_corner)
-                blockView.setImageResource(R.drawable.stone_texture)
-            }
-            is TargetBlock -> {
-                blockView.setImageResource(R.drawable.target)
-            }
-            is AuthBlock -> {
-                blockView.setImageResource(R.drawable.password_texture)
-            }
-            is PasswordBlock -> {
-                blockView.setImageResource(R.drawable.password_texture)
-                val passwordView = TextView(requireContext())
-                val heightInDp = heightInPx / resources.displayMetrics.density
-                passwordView.textSize = heightInDp * 0.4f
-                passwordView.setTextColor(Color.parseColor("#D50000"))
-                passwordView.typeface = Typeface.DEFAULT_BOLD
-                passwordView.layoutParams = FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    gravity = Gravity.CENTER
-                }
-                passwordView.text = block.password
-                container.addView(passwordView)
-            }
-            is VoidBlock -> {
+        when (val asset = block.asset) {
+            is Asset.Void -> {
                 blockView.setImageDrawable(null)
             }
-            is CodeBlock -> {
-                val codeView = TextView(requireContext())
-                val heightInDp = heightInPx / resources.displayMetrics.density
-                codeView.textSize = heightInDp * 0.7f
-                codeView.setTextColor(Color.parseColor("#D50000"))
-                codeView.typeface = Typeface.DEFAULT_BOLD
-                codeView.layoutParams = FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    gravity = Gravity.CENTER
-                }
-                codeView.text = block.code.toString()
+            Asset.Platform -> {
+                container.foreground = ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.block_corner
+                )
+                blockView.setImageResource(R.drawable.stone_texture)
+            }
+            Asset.Target -> {
+                blockView.setImageResource(R.drawable.target)
+            }
+            Asset.CheckKey -> {
+                blockView.setImageResource(R.drawable.password_texture)
+            }
+            is Asset.Password -> {
+                blockView.setImageResource(R.drawable.password_texture)
+                val passwordView = blockTextView(heightInPx, 0.4f)
+                passwordView.text = asset.password
+                container.addView(passwordView)
+            }
+            is Asset.Code -> {
+                val codeView = blockTextView(heightInPx, 0.7f)
+                codeView.text = asset.randomCode.toString()
                 container.addView(codeView)
             }
-            is VerifyCodeBlock -> {
+            is Asset.CheckCode -> {
                 blockView.setImageResource(R.drawable.verify)
             }
         }.exhaustive
         return container
+    }
+
+    private fun blockTextView(blockHeightInPx: Int, sizeCof: Float): TextView {
+        val textView = TextView(requireContext())
+        val heightInDp = blockHeightInPx / resources.displayMetrics.density
+        textView.textSize = heightInDp * sizeCof
+        textView.setTextColor(Color.parseColor("#D50000"))
+        textView.typeface = Typeface.DEFAULT_BOLD
+        textView.layoutParams = FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        ).apply {
+            gravity = Gravity.CENTER
+        }
+        return textView
     }
 
     private var isRobotInit = false

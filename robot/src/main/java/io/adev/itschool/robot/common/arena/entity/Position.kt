@@ -10,7 +10,7 @@ data class Position(
         return isInHor && isInVer
     }
 
-    fun move(direction: Direction): Position {
+    fun moved(direction: Direction): Position {
         return when (direction) {
             Direction.Left -> copy(x = x - 1.vp)
             Direction.Right -> copy(x = x + 1.vp)

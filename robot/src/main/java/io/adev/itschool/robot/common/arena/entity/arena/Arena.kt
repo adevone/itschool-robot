@@ -10,6 +10,10 @@ data class Arena(
     private val nonVoidBlocks: List<Block>,
 ) : RobotStateMutationsProvider, RobotState.Source {
 
+    private val maxKeyUsage: Int = nonVoidBlocks.count { it.requiresKey }
+
+    private var usedKeyPositions = mutableSetOf<Position>()
+
     val size = Size.Virtual(
         width = nonVoidBlocks.maxByOrNull { block -> block.horEnd }?.horEnd ?: 1.vp,
         height = nonVoidBlocks.maxByOrNull { block -> block.verEnd }?.verEnd ?: 1.vp
@@ -27,11 +31,6 @@ data class Arena(
         return blocks.find { it.position == position }
     }
 
-    fun robotStartBlock(): Block {
-        val block = blockOn(initialRobotState.position)
-        return requireNotNull(block)
-    }
-
     fun calculatePointSize(screenSize: Size.Real): Float {
         return if (size.ratio > screenSize.ratio) {
             screenSize.height / size.height
@@ -41,6 +40,12 @@ data class Arena(
     }
 
     override fun beforeRobotMove(robotState: RobotState): RobotState? {
+        if (robotState.currentKey != null) {
+            usedKeyPositions.add(robotState.position)
+            require(usedKeyPositions.size <= maxKeyUsage) {
+                "Key could be used not more than $maxKeyUsage times"
+            }
+        }
         if (!robotState.position.isIn(size)) {
             return robotState.destroyed().withSource(source = this)
         } else {
@@ -100,9 +105,10 @@ fun parseArena(draw: String): Arena {
                 'p' -> blocks.add(PlatformBlock(position))
                 't' -> blocks.add(TargetBlock(position))
                 '*' -> blocks.add(PasswordBlock(position))
-                '#' -> blocks.add(AuthBlock(position))
-                'c' -> blocks.add(CodeBlock(position))
-                'v' -> blocks.add(VerifyCodeBlock(position))
+                '#' -> blocks.add(CheckKeyBlock(position))
+                '%' -> blocks.add(MaybeCheckKeyBlock(position))
+                'c' -> blocks.add(RandomCodeBlock(position))
+                'v' -> blocks.add(CheckCodeBlock(position))
                 ' ' -> Unit // skip
                 else -> throw IllegalArgumentException("char can not be '$char' position=$position")
             }

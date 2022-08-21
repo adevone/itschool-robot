@@ -11,7 +11,7 @@ import io.adev.itschool.robot.levels.homework1Variant3Arena
 lateinit var globalRobotController: RobotController
 
 fun setArena(arena: Arena) {
-    globalRobotController.setArena(arena)
+    globalRobotController.updateArena(arena)
 }
 
 fun setDemoArena() {
@@ -80,22 +80,6 @@ fun getKey(): String {
 
 fun useKey(key: String) {
     globalRobotController.useKey(key)
-}
-
-fun isAuthLeft(): Boolean {
-    return globalRobotController.isAuthLeft()
-}
-
-fun isAuthRight(): Boolean {
-    return globalRobotController.isAuthRight()
-}
-
-fun isAuthUp(): Boolean {
-    return globalRobotController.isAuthUp()
-}
-
-fun isAuthDown(): Boolean {
-    return globalRobotController.isAuthDown()
 }
 
 fun currentCode(): Int {

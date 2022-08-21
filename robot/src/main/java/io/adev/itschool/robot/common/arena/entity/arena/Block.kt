@@ -12,6 +12,10 @@ sealed class Block(
     val position: Position,
 ) : RobotStateMutationsProvider, RobotState.Source {
 
+    abstract val asset: Asset
+
+    open val requiresKey: Boolean = false
+
     val size = Size.Virtual(width = 1.vp, height = 1.vp)
 
     val horEnd: SizePoint.Virtual get() = position.x + size.width
@@ -35,55 +39,22 @@ sealed class Block(
     }
 }
 
-class AuthBlock(position: Position) : Block(position) {
-
-    override fun beforeRobotMove(robotState: RobotState): RobotState? {
-        return if (robotState.position == position)
-            robotState.also { state ->
-                state.checkToken()
-            }
-        else
-            null
-    }
+sealed class Asset {
+    object Void : Asset()
+    object Platform : Asset()
+    object Target : Asset()
+    object CheckKey : Asset()
+    data class Password(val password: String) : Asset()
+    data class Code(val randomCode: Int) : Asset()
+    object CheckCode : Asset()
 }
 
-class PasswordBlock(position: Position) : Block(position) {
-
-    val password = position.hash()
-
-    override fun beforeRobotMove(robotState: RobotState): RobotState? {
-        return if (robotState.position == position && robotState.text != password)
-            robotState.destroyed().withSource(source = this)
-        else
-            null
-    }
-}
-
-class CodeBlock(position: Position) : Block(position) {
-
-    val code = Random.nextInt().absoluteValue % 10
-
-    override fun afterRobotMove(robotState: RobotState): RobotState? {
-        return if (robotState.position == position)
-            robotState.withCode(code)
-        else
-            null
-    }
-}
-
-class VerifyCodeBlock(position: Position) : Block(position) {
-
-    override fun beforeRobotMove(robotState: RobotState): RobotState? {
-        return if (robotState.position == position)
-            robotState.also { state ->
-                state.checkCode()
-            }
-        else
-            null
-    }
+class VoidBlock(position: Position) : Block(position) {
+    override val asset = Asset.Void
 }
 
 class PlatformBlock(position: Position) : Block(position) {
+    override val asset = Asset.Platform
 
     override fun beforeRobotMove(robotState: RobotState): RobotState? {
         return if (robotState.position == position)
@@ -94,6 +65,7 @@ class PlatformBlock(position: Position) : Block(position) {
 }
 
 class TargetBlock(position: Position) : Block(position) {
+    override val asset = Asset.Target
 
     override fun afterRobotMove(robotState: RobotState): RobotState? {
         return if (robotState.position == position) {
@@ -104,4 +76,74 @@ class TargetBlock(position: Position) : Block(position) {
     }
 }
 
-class VoidBlock(position: Position) : Block(position)
+
+open class CheckKeyBlock(position: Position) : Block(position) {
+    override val asset: Asset = Asset.CheckKey
+
+    override val requiresKey = true
+
+    override fun beforeRobotMove(robotState: RobotState): RobotState? {
+        return if (robotState.position == position && !robotState.isKeyValid()) {
+            robotState.destroyed().withSource(this)
+        } else {
+            null
+        }
+    }
+
+    override fun sourceRepresentation(): String {
+        return "Key is not entered. ${super.sourceRepresentation()}"
+    }
+}
+
+class MaybeCheckKeyBlock(position: Position) : CheckKeyBlock(position) {
+    private val needCheck = (Random.nextInt().absoluteValue % 5) == 0 // Шанс 1/5
+
+    override val requiresKey = needCheck
+    override val asset: Asset = if (needCheck) Asset.CheckKey else Asset.Void
+
+    override fun beforeRobotMove(robotState: RobotState): RobotState? {
+        return if (needCheck)
+            super.beforeRobotMove(robotState)
+        else
+            null
+    }
+}
+
+class PasswordBlock(position: Position) : Block(position) {
+    private val password = position.hash()
+
+    override val asset = Asset.Password(password)
+
+    override fun beforeRobotMove(robotState: RobotState): RobotState? {
+        return if (robotState.position == position && robotState.text != password)
+            robotState.destroyed().withSource(source = this)
+        else
+            null
+    }
+}
+
+class RandomCodeBlock(position: Position) : Block(position) {
+    val randomCode = Random.nextInt().absoluteValue % 10
+
+    override val asset = Asset.Code(randomCode)
+
+    override fun afterRobotMove(robotState: RobotState): RobotState? {
+        return if (robotState.position == position)
+            robotState.withCode(randomCode)
+        else
+            null
+    }
+}
+
+class CheckCodeBlock(position: Position) : Block(position) {
+    override val asset = Asset.CheckCode
+
+    override fun beforeRobotMove(robotState: RobotState): RobotState? {
+        return if (robotState.position == position)
+            robotState.also { state ->
+                state.checkCode()
+            }
+        else
+            null
+    }
+}

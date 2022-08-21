@@ -6,7 +6,7 @@ data class RobotState(
     val finishReason: RobotException? = null,
     val initKeyPosition: Position? = null,
     val nextStepKey: String? = null,
-    val currentToken: String? = null,
+    val currentKey: String? = null,
     val code: Int? = null,
     val beforeMove: () -> Unit = {},
     val isWon: Boolean = false,
@@ -24,9 +24,9 @@ data class RobotState(
 
     fun moved(direction: Position.Direction): RobotState {
         return copy(
-            position = position.move(direction),
+            position = position.moved(direction),
             nextStepKey = null,
-            currentToken = nextStepKey,
+            currentKey = nextStepKey,
         )
     }
 
@@ -41,15 +41,13 @@ data class RobotState(
             throw AlreadyHaveKeyException()
     }
 
-    fun withKey(key: String): RobotState {
-        return copy(nextStepKey = key)
+    fun isKeyValid(): Boolean {
+        val hash = initKeyPosition?.hash() ?: throw KeyIsNotProducedException()
+        return currentKey == hash
     }
 
-    fun checkToken() {
-        val hash = initKeyPosition?.hash() ?: throw KeyIsNotProducedException()
-        if (currentToken != hash) {
-            throw KeyIsNotEnteredException()
-        }
+    fun withKey(key: String): RobotState {
+        return copy(nextStepKey = key)
     }
 
     fun getKey(): String {
