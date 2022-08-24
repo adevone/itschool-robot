@@ -9,6 +9,7 @@ fun createRobotController(): RobotController {
 class GlobalRobotController : RobotController() {
 
     override fun run() {
+        run(controller = this)
         io.adev.itschool.robot.run()
     }
 }
