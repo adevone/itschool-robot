@@ -11,7 +11,7 @@ import io.adev.itschool.robot.levels.homework1Variant3Arena
 lateinit var globalRobotController: RobotController
 
 fun setArena(arena: Arena) {
-    globalRobotController.updateArena(arena)
+    globalRobotController.arena = arena
 }
 
 fun setDemoArena() {

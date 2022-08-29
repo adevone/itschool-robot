@@ -26,7 +26,7 @@ fun runMockRobot(arena: Arena, robotController: RobotController) {
             useCallback = {}
         )
     }
-    robotController.updateArena(arena)
+    robotController.arena = arena
     executor.execute(
         robotController = robotController,
         callback = object : RobotExecutor.Callback {

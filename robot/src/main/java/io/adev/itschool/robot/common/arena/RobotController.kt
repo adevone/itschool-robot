@@ -9,13 +9,16 @@ import io.adev.itschool.robot.common.arena.entity.arena.RandomCodeBlock
 abstract class RobotController : RobotState.Source {
     var onArenaSet: (Arena) -> Unit = {}
     lateinit var applyStates: (List<RobotState>) -> Unit
-    lateinit var arena: Arena
 
-    fun updateArena(arena: Arena) {
-        this.arena = arena
-        onArenaSet(arena)
-        updateState(arena.initialRobotState)
-    }
+    private var _arena: Arena? = null
+
+    var arena: Arena
+        get() = requireNotNull(_arena) { "RobotController.arena must be set" }
+        set(arena) {
+            _arena = arena
+            onArenaSet(arena)
+            updateState(arena.initialRobotState)
+        }
 
     private lateinit var currentState: RobotState
 
