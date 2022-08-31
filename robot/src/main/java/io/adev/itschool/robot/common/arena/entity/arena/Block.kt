@@ -96,7 +96,7 @@ open class CheckKeyBlock(position: Position) : Block(position) {
 }
 
 class MaybeCheckKeyBlock(position: Position) : CheckKeyBlock(position) {
-    private val needCheck = (Random.nextInt().absoluteValue % 5) == 0 // Шанс 1/5
+    private val needCheck = System.currentTimeMillis().absoluteValue % 5 == 0L // Шанс 1/5
 
     override val requiresKey = needCheck
     override val asset: Asset = if (needCheck) Asset.CheckKey else Asset.Void
