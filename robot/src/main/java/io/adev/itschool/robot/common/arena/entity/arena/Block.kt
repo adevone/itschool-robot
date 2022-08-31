@@ -5,6 +5,7 @@ import io.adev.itschool.robot.common.arena.entity.RobotState
 import io.adev.itschool.robot.common.arena.entity.Size
 import io.adev.itschool.robot.common.arena.entity.SizePoint
 import io.adev.itschool.robot.common.arena.entity.vp
+import java.security.SecureRandom
 import kotlin.math.absoluteValue
 import kotlin.random.Random
 
@@ -96,7 +97,7 @@ open class CheckKeyBlock(position: Position) : Block(position) {
 }
 
 class MaybeCheckKeyBlock(position: Position) : CheckKeyBlock(position) {
-    private val needCheck = System.currentTimeMillis().absoluteValue % 5 == 0L // Шанс 1/5
+    private val needCheck = SecureRandom.getInstance("SHA1PRNG").nextInt() % 5 == 0 // Шанс 1/5
 
     override val requiresKey = needCheck
     override val asset: Asset = if (needCheck) Asset.CheckKey else Asset.Void
