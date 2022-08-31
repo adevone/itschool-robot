@@ -39,23 +39,23 @@ abstract class RobotController : RobotState.Source {
         updateState(currentState.withKey(key))
     }
 
-    fun isAuthLeft(): Boolean {
-        return isAuth(direction = Position.Direction.Left)
+    fun needKeyLeft(): Boolean {
+        return needKey(direction = Position.Direction.Left)
     }
 
-    fun isAuthRight(): Boolean {
-        return isAuth(direction = Position.Direction.Right)
+    fun needKeyRight(): Boolean {
+        return needKey(direction = Position.Direction.Right)
     }
 
-    fun isAuthUp(): Boolean {
-        return isAuth(direction = Position.Direction.Up)
+    fun needKeyUp(): Boolean {
+        return needKey(direction = Position.Direction.Up)
     }
 
-    fun isAuthDown(): Boolean {
-        return isAuth(direction = Position.Direction.Down)
+    fun needKeyDown(): Boolean {
+        return needKey(direction = Position.Direction.Down)
     }
 
-    fun isAuth(direction: Position.Direction): Boolean {
+    fun needKey(direction: Position.Direction): Boolean {
         val nextPosition = currentState.position.moved(direction)
         return arena.blockOn(nextPosition)?.requiresKey == true
     }
